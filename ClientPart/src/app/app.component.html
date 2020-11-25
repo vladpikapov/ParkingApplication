@@ -1,0 +1,7 @@
+<div class="topnav">
+  <a [routerLink]="['']" routerLinkActive='active' [routerLinkActiveOptions]="{exact: true}">Bookstore</a>
+  <mat-card *ngIf="isLoggedIn">
+    <button mat-flat-button color="primary" (click)="logout()">Logout</button>
+  </mat-card>
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,9 @@
+D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart.Data\bin\Debug\netcoreapp3.1\ServerPart.Data.deps.json
+D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart.Data\bin\Debug\netcoreapp3.1\ServerPart.Data.dll
+D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart.Data\obj\Debug\netcoreapp3.1\ServerPart.Data.csprojAssemblyReference.cache
+D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart.Data\obj\Debug\netcoreapp3.1\ServerPart.Data.AssemblyInfoInputs.cache
+D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart.Data\obj\Debug\netcoreapp3.1\ServerPart.Data.AssemblyInfo.cs
+D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart.Data\bin\Debug\netcoreapp3.1\ServerPart.Data.pdb
+D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart.Data\obj\Debug\netcoreapp3.1\ServerPart.Data.csproj.CoreCompileInputs.cache
+D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart.Data\obj\Debug\netcoreapp3.1\ServerPart.Data.dll
+D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart.Data\obj\Debug\netcoreapp3.1\ServerPart.Data.pdb

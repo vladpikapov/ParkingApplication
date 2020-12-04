@@ -576,7 +576,10 @@
       "System.Security.Principal.Windows/4.7.0": {},
       "ServerPart.Data/1.0.0": {
         "dependencies": {
-          "Microsoft.IdentityModel.Tokens": "6.8.0"
+          "Dapper": "2.0.78",
+          "Microsoft.Extensions.Configuration.Abstractions": "5.0.0",
+          "Microsoft.IdentityModel.Tokens": "6.8.0",
+          "System.Data.SqlClient": "4.8.2"
         },
         "runtime": {
           "ServerPart.Data.dll": {}

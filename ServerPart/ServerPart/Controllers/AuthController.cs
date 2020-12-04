@@ -66,6 +66,13 @@ namespace ServerPart.Controllers
             return Unauthorized();
         }
 
+        [HttpPost]
+        [Route("[action]")]
+        public bool Registration([FromBody] Login model)
+        {
+            return AuthManager.RegistrationUser(model.Email, model.Password);
+        }
+
       
 
         

@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <div class="row mt-5">
+    <dx-data-grid class="w-75 mx-auto" [showBorders]="true" [dataSource]="dataSource">
+      <dxi-column dataField="orderStartDate" dataType="datetime" alignment="center"
+                  caption="Начало аренды"></dxi-column>
+      <dxi-column dataField="orderEndDate" dataType="datetime" alignment="center"
+                  caption="Окончание аренды"></dxi-column>
+      <dxi-column dataField="parking.city" dataType="text" alignment="center"></dxi-column>
+      <dxi-column dataField="parking.address" dataType="text" alignment="center"></dxi-column>
+      <dxi-column [width]="100" cellTemplate="repeatButtonTemplate" alignment="center"></dxi-column>
+      <dxi-column [width]="100" cellTemplate="editButtonTemplate" alignment="center"></dxi-column>
+      <div *dxTemplate="let rB of 'repeatButtonTemplate'">
+        <dx-button (onClick)="refreshOrder(rB)" icon="refresh"></dx-button>
+      </div>
+      <div *dxTemplate="let eB of 'editButtonTemplate'">
+        <dx-button [disabled]="!checkDate(eB)" (onClick)="editOrder(eB)" icon="edit"></dx-button>
+      </div>
+    </dx-data-grid>
+  </div>
+</div>
+<dx-popup [(visible)]="visiblePopup" [width]="400" [height]="250" [title]="titleText">
+  <dx-form [(formData)]="formData">
+    <dxi-item dataField="orderStartDate" editorType="dxDateBox"
+              [label]="{text:'Начало аренды'}"
+              [disabled]="disableStartDate"
+              [editorOptions]="{ value: null, width: '100%', type: 'datetime', showClearButton: 'true', useMaskBehavior: 'true'}">
+      <dxi-validation-rule type="required"></dxi-validation-rule>
+    </dxi-item>
+    <dxi-item dataField="orderEndDate" type="datetime" editorType="dxDateBox"
+              [label]="{text:'Окончание аренды'}"
+              [editorOptions]="{ value: null, width: '100%', type: 'datetime', showClearButton: 'true', useMaskBehavior: 'true'}">
+      <dxi-validation-rule type="required"></dxi-validation-rule>
+    </dxi-item>
+  </dx-form>
+  <dx-button class="btn btn-outline-dark mt-4" (onClick)="postOrder()" style="margin-left: 120px" [text]="buttonText"></dx-button>
+</dx-popup>

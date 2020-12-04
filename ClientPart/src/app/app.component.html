@@ -1,7 +1,19 @@
-<div class="topnav">
-  <a [routerLink]="['']" routerLinkActive='active' [routerLinkActiveOptions]="{exact: true}">Bookstore</a>
-  <mat-card *ngIf="isLoggedIn">
-    <button mat-flat-button color="primary" (click)="logout()">Logout</button>
-  </mat-card>
-  <router-outlet></router-outlet>
+<div class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+    <div class="row">
+      <a *ngIf="isLoggedIn" class="nav nav-item nav-link text-white" [routerLink]="['']" routerLinkActive='active'
+         [routerLinkActiveOptions]="{exact: true}">Parking application</a>
+      <a *ngIf="isLoggedIn" class="nav nav-item nav-link text-white" [routerLink]="['/parking']">All parking</a>
+      <a *ngIf="isLoggedIn" class="nav nav-item nav-link text-white" [routerLink]="['/history']">Orders history</a>
+      <button *ngIf="isLoggedIn" class="btn btn-outline-light mr-2" style="margin-left: 1250px" [routerLink]="['/login']"
+              (click)="logout()">Logout
+      </button>
+    </div>
+    <div class="row" *ngIf="!isLoggedIn">
+      <button class="btn btn-outline-light" [routerLink]="['/login']">Login</button>
+      <button class="btn btn-outline-light ml-4 mr-2" [routerLink]="['/registration']">Registration
+      </button>
+    </div>
+  </div>
 </div>
+<router-outlet></router-outlet>

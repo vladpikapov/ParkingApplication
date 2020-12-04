@@ -1,0 +1,49 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="card  border border-dark">
+      <div class="mt-3 card-title mx-auto">
+        Создание заказа
+      </div>
+      <div class="card-body">
+        <dx-select-box [items]="cities" (onSelectionChanged)="filterItems($event)"
+                       placeholder="Выберите город" class="mb-3"></dx-select-box>
+        <dx-form [(formData)]="formData" (formDataChange)="checkDate($event)" [disabled]="!selectionChanged">
+          <dxi-item dataField="orderStartDate" editorType="dxDateBox"
+                    [label]="{text:'Начало аренды'}"
+                    [editorOptions]="{ value: null, width: '100%', type: 'datetime', showClearButton: 'true', useMaskBehavior: 'true', onValueChanged: checkDate, min: startDate}">
+            <dxi-validation-rule type="required"></dxi-validation-rule>
+          </dxi-item>
+          <dxi-item dataField="orderEndDate" editorType="dxDateBox"
+                    [label]="{text:'Окончание аренды'}"
+                    [editorOptions]="editorEndDate">
+            <dxi-validation-rule type="required"></dxi-validation-rule>
+          </dxi-item>
+          <dxi-item dataField="parkingId" editorType="dxSelectBox"
+                    [label]="{text:'Адрес парковки'}"
+                    [editorOptions]="{items:dataSelectBox, displayExpr:'address'}">
+            <dxi-validation-rule type="required"></dxi-validation-rule>
+          </dxi-item>
+        </dx-form>
+        <dx-button [disabled]="!selectionChanged" (onClick)="addOrder()" class="btn btn-outline-dark mt-4"
+                   style="margin-left: 90px">
+          Забронировать
+        </dx-button>
+      </div>
+    </div>
+  </div>
+</div>
+<dx-popup [(visible)]="visiblePopup" width="400" height="350" title="Информация о брони">
+  Информация о заказе:
+  <br>
+  <br>
+  <ul>
+    <li>Начало: {{this.infoData.orderStartDate | date:'medium'}}</li>
+    <li>Окончание: {{this.infoData.orderEndDate | date:'medium'}}</li>
+    <li>Информация о парковке: г.{{this.infoData.parkingId.city}}, {{this.infoData.parkingId.address}}</li>
+    <li>Свободных мест: {{this.infoData.parkingId.capacity}}</li>
+  </ul>
+  <br>
+  Итого: {{allCost}} BYN.
+  <br>
+  <dx-button (onClick)="postOrder()" class="mt-3 mx-auto btn btn-outline-dark">Подтвердить</dx-button>
+</dx-popup>

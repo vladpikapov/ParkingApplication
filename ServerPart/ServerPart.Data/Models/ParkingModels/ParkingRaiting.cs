@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ServerPart.Data.Models.ParkingModels
 {
-    class ParkingRaiting
+    public class ParkingRaiting
     {
         public int Id { get; set; }
 
@@ -12,6 +12,6 @@ namespace ServerPart.Data.Models.ParkingModels
 
         public int ParkingId { get; set; }
 
-        public int UserRaiting { get; set; }
+        public int UserRating { get; set; }
     }
 }

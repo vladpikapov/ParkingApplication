@@ -1,0 +1,18 @@
+<div class="container-fluid">
+  <div class="row mt-5">
+    <dx-data-grid class="w-75 mx-auto " [showBorders]="true" [dataSource]="dataSource">
+      <dxi-column dataField="address" caption="Адрес" alignment="center"></dxi-column>
+      <dxi-column dataField="city" caption="Город" alignment="center"></dxi-column>
+      <dxi-column dataField="capacity" caption="Вместимость" alignment="center"></dxi-column>
+      <dxi-column dataField="parkingRaiting" caption="Рейтинг" alignment="center"></dxi-column>
+      <dxi-column [width]="50" cellTemplate="setRatingTemplate"></dxi-column>
+      <div *dxTemplate="let rating of 'setRatingTemplate'">
+        <dx-button (onClick)="setRating(rating)" icon="like"></dx-button>
+      </div>
+    </dx-data-grid>
+  </div>
+</div>
+<dx-popup [(visible)]="visiblePopup" title="Поставить рейтинг" [width]="270" [height]="200">
+  <dx-select-box #rate [items]="parkingRatings"></dx-select-box>
+  <dx-button (onClick)="saveRating(rate.value)" class="btn btn-outline-dark mt-4" style="margin-left: 40px">Сохранить</dx-button>
+</dx-popup>

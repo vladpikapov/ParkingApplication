@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
+import {DxFormComponent} from "devextreme-angular";
 
 @Component({
   selector: 'app-login',
@@ -8,6 +9,10 @@ import {AuthService} from '../../services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
+  @ViewChild(DxFormComponent, {static: false})
+  form: DxFormComponent;
+
+
   public get isLoggedIn(): boolean {
     return this.as.isAuthenticated();
   }
@@ -15,14 +20,22 @@ export class LoginComponent implements OnInit {
   constructor(private as: AuthService) {
   }
 
+  formData = {
+    mail: '',
+    password: '',
+  };
+
   ngOnInit(): void {
   }
 
   // tslint:disable-next-line:typedef
-  login(email: string, password: string) {
-    this.as.login(email, password)
-      .subscribe(res => {
-      }, error => alert('Wrong login or password.'));
+  login() {
+    console.log(this.formData);
+    if (this.form && this.form.instance.validate().isValid) {
+      this.as.login(this.formData.mail, this.formData.password)
+        .subscribe(res => {
+        }, error => alert('Wrong login or password.'));
+    }
   }
 
   // tslint:disable-next-line:typedef

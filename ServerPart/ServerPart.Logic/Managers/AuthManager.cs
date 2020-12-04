@@ -10,19 +10,21 @@ using System.Security.Claims;
 using System.Text;
 using Dapper;
 using System.Linq;
+using ServerPart.Data.Context;
+using ServerPart.Data.Helper;
 
 namespace ServerPart.Logic.Managers
 {
     public class AuthManager
     {
         private readonly IOptions<AuthOptions> authOptions;
+        private UserContext userContext;
 
-        private string ConnectionString { get; set; }
 
-        public AuthManager(IOptions<AuthOptions> authOptions, IConfiguration configuration)
+        public AuthManager(IOptions<AuthOptions> authOptions, UserContext userContext)
         {
             this.authOptions = authOptions;
-            ConnectionString = configuration.GetConnectionString("DefaultConnection");
+            this.userContext = userContext;
         }
 
         public string GenerateJWT(Account user)
@@ -50,20 +52,26 @@ namespace ServerPart.Logic.Managers
 
         public Account AuthenticateUser(string email, string password)
         {
-            string sql = $"SELECT * FROM ACCOUNTS WHERE EMAIL = '{email}' AND PASSWORD = '{password}'";
-            var connection = new SqlConnection(ConnectionString);
-            Account account = null;
+
+            return userContext.GetAll().FirstOrDefault(x => x.Email.Equals(email) && x.Password.Equals(CryptoHelper.GetHash(password)));
+
+        }
+
+        public bool RegistrationUser(string email, string password)
+        {
+            var user = userContext.GetAll().FirstOrDefault(x => x.Email.Equals(email));
+            if (user != null)
+                return false;
+
             try
             {
-                connection.Open();
-                account = connection.Query<Account>(sql).FirstOrDefault();
+                userContext.Insert(new Account { Email = email, Password = password });
             }
-            finally
+            catch
             {
-                connection.Close();
+                return false;
             }
-            return account;
-
+            return true;
         }
     }
 }

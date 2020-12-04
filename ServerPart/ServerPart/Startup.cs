@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ServerPart.Data.Context;
 using ServerPart.Data.Models.AuthModels;
 using ServerPart.Logic.Managers;
 
@@ -64,7 +65,7 @@ namespace ServerPart
                 });
             });
 
-            services.AddSingleton<AuthManager>();
+            services.AddDependencies();
 
         }
 

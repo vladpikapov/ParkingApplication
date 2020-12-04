@@ -22,7 +22,6 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<Token> {
-    debugger
     return this.http.post<Token>(`${this.apiUrl}api/auth/Login`, {
       email, password
     }).pipe(
@@ -31,6 +30,13 @@ export class AuthService {
         this.router.navigate(['']);
       })
     );
+  }
+
+  // tslint:disable-next-line:typedef
+  registration(email: string, password: string){
+    return this.http.post(`${this.apiUrl}api/auth/Registration`, {
+      email, password
+    });
   }
 
   isAuthenticated(): boolean {

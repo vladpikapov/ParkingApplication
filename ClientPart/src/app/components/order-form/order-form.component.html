@@ -7,7 +7,7 @@
       <div class="card-body">
         <dx-select-box [items]="cities" (onSelectionChanged)="filterItems($event)"
                        placeholder="Выберите город" class="mb-3"></dx-select-box>
-        <dx-form [(formData)]="formData" (formDataChange)="checkDate($event)" [disabled]="!selectionChanged">
+        <dx-form [(formData)]="formData" (onFieldDataChanged)="checkDate($event)"[disabled]="!selectionChanged">
           <dxi-item dataField="orderStartDate" editorType="dxDateBox"
                     [label]="{text:'Начало аренды'}"
                     [editorOptions]="{ value: null, width: '100%', type: 'datetime', showClearButton: 'true', useMaskBehavior: 'true', onValueChanged: checkDate, min: startDate}">

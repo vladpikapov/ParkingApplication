@@ -1,18 +1,18 @@
 <div class="container-fluid">
   <div class="row mt-5">
     <div class="card mx-auto  my-auto">
-      <img src="assets/icons/loginIcon.png" class="mt-2 card-img-top mx-auto" style="width: 100px; height: 100px"/>
+      <img src="assets/icons/loginIcon.png" class="mt-2 card-img-top mx-auto" style="width: 100px; height: 100px" alt=""/>
       <div class="card-body ">
         <dx-form [(formData)]="formData" labelLocation="top">
           <dxi-item dataField="mail">
             <dxi-validation-rule type="required"></dxi-validation-rule>
           </dxi-item>
-          <dxi-item dataField="password" [editorOptions]="{type:'dxTextBox', mode:'password'}">
+          <dxi-item dataField="password" [editorOptions]="{type:'dxTextBox', mode:'password', minLength: 8}">
             <dxi-validation-rule type="required"></dxi-validation-rule>
           </dxi-item>
-          <dxi-item dataField="repeatPassword" [editorOptions]="{type:'dxTextBox', mode:'password'}">
+          <dxi-item dataField="repeatPassword" [editorOptions]="{type:'dxTextBox', mode:'password', minLength: 8}">
             <dxi-validation-rule type="required"></dxi-validation-rule>
-<!--            <dxi-validation-rule type="custom" message="Passwords must be equals!"  [validationCallback]="validatePassword"></dxi-validation-rule>-->
+            <!--            <dxi-validation-rule type="custom" message="Passwords must be equals!"  [validationCallback]="validatePassword"></dxi-validation-rule>-->
           </dxi-item>
         </dx-form>
         <dx-button style="margin-left: 40px" class="mt-3 btn btn-outline-dark" width="90px" height="35px"

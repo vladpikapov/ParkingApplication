@@ -14,6 +14,7 @@ export class OrderHistoryListComponent implements OnInit {
   @ViewChild(DxFormComponent, {static: false})
   form: DxFormComponent;
 
+  endDate: any;
   titleText = '';
   buttonText = '';
   disableStartDate = false;
@@ -47,6 +48,7 @@ export class OrderHistoryListComponent implements OnInit {
     this.titleText = 'Обновить бронь';
     this.buttonText = 'Обновить';
     this.formData.orderId = e.data.id;
+    this.endDate = e.data.orderEndDate;
     this.formData.orderStartDate = e.data.orderStartDate;
     this.formData.orderEndDate = e.data.orderEndDate;
     this.formData.parkingId = e.data.orderParkingId;
@@ -63,7 +65,13 @@ export class OrderHistoryListComponent implements OnInit {
     if (!this.disableStartDate) {
       this.pstOrder(order);
     } else {
-      this.updOrder(order);
+      console.log(this.endDate);
+      console.log(this.formData.orderEndDate);
+      if (new Date(this.endDate).getTime() > new Date(this.formData.orderEndDate).getTime()) {
+        alert('Incorrect date!');
+      } else {
+        this.updOrder(order);
+      }
     }
     this.visiblePopup = !this.visiblePopup;
 
@@ -100,5 +108,20 @@ export class OrderHistoryListComponent implements OnInit {
   setDisable($event: any) {
 
 
+  }
+
+  setDefault() {
+    this.disableStartDate = false;
+  }
+
+  setMinDate(e: any) {
+    if (e.dataField === 'orderStartDate') {
+      const endDate = e.component.getEditor('orderEndDate');
+      endDate.option({
+        onValueChanged(ev: any) {
+          endDate.option('min', e.value);
+        }
+      });
+    }
   }
 }

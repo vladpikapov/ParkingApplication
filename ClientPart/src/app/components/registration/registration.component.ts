@@ -27,15 +27,18 @@ export class RegistrationComponent implements OnInit {
 
   registration() {
     if (this.form && this.form.instance.validate().isValid) {
-      console.log('here');
-      this.as.registration(this.formData.mail, this.formData.password).subscribe(res => {
-        if (res === false) {
-          alert('Such a user already exist!');
-        }
-        else {
-          this.router.navigate(['/login']);
-        }
-      });
+      if(this.formData.password === this.formData.repeatPassword) {
+        this.as.registration(this.formData.mail, this.formData.password).subscribe(res => {
+          if (res === false) {
+            alert('Such a user already exist!');
+          } else {
+            this.router.navigate(['/login']);
+          }
+        });
+      }
+      else{
+        alert('Passwords must be equals!');
+      }
     }
   }
 

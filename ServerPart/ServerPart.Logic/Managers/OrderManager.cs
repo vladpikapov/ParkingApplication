@@ -25,6 +25,8 @@ namespace ServerPart.Logic.Managers
             foreach(var order in orders)
             {
                 order.Parking = parkings.FirstOrDefault(x => x.Id == order.OrderParkingId);
+                order.OrderStartDate = order.OrderStartDate.ToLocalTime();
+                order.OrderEndDate = order.OrderEndDate.ToLocalTime();
             }
             return orders;
         }

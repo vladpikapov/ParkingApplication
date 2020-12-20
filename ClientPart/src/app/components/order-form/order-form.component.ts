@@ -38,7 +38,6 @@ export class OrderFormComponent implements OnInit {
     type: 'datetime',
     showClearButton: 'true',
     useMaskBehavior: 'true',
-    min: new Date()
   };
 
   allCost: number;
@@ -60,8 +59,14 @@ export class OrderFormComponent implements OnInit {
   }
 
   checkDate(e) {
-    console.log(e);
-    this.minDate = new Date(e.value);
+    if (e.dataField === 'orderStartDate'){
+      const endDate = e.component.getEditor('orderEndDate');
+      endDate.option({
+        onValueChanged(ev: any) {
+          endDate.option('min', e.value);
+        }
+      });
+    }
   }
 
   filterItems(e) {
@@ -80,20 +85,25 @@ export class OrderFormComponent implements OnInit {
 
   addOrder() {
     if (this.form && this.form.instance.validate().isValid) {
-      let date1: string = this.formData.orderStartDate;
-      let date2: string = this.formData.orderEndDate;
+      if (this.formData.orderStartDate < this.formData.orderEndDate) {
+        let date1: string = this.formData.orderStartDate;
+        let date2: string = this.formData.orderEndDate;
 
-      let diffInMs: number = Date.parse(date2) - Date.parse(date1);
-      let diffInHours: number = diffInMs / 1000 / 60 / 60;
-      let diffFixed = diffInHours.toFixed(2);
-      this.allCost = Number.parseFloat(this.formData.parkingId.costPerHour) * Number.parseFloat(diffFixed);
-      this.infoData.orderEndDate = this.formData.orderEndDate;
-      this.infoData.orderStartDate = this.formData.orderStartDate;
-      this.infoData.parkingId.city = this.formData.parkingId.city;
-      this.infoData.parkingId.address = this.formData.parkingId.address;
-      this.infoData.pkId = this.formData.parkingId.id;
-      this.infoData.parkingId.capacity = this.formData.parkingId.capacity;
-      this.visiblePopup = !this.visiblePopup;
+        let diffInMs: number = Date.parse(date2) - Date.parse(date1);
+        let diffInHours: number = diffInMs / 1000 / 60 / 60;
+        let diffFixed = diffInHours.toFixed(2);
+        this.allCost = Number.parseFloat(this.formData.parkingId.costPerHour) * Number.parseFloat(diffFixed);
+        this.infoData.orderEndDate = this.formData.orderEndDate;
+        this.infoData.orderStartDate = this.formData.orderStartDate;
+        this.infoData.parkingId.city = this.formData.parkingId.city;
+        this.infoData.parkingId.address = this.formData.parkingId.address;
+        this.infoData.pkId = this.formData.parkingId.id;
+        this.infoData.parkingId.capacity = this.formData.parkingId.capacity;
+        this.visiblePopup = !this.visiblePopup;
+      }
+      else {
+        alert('Incorrect dates!');
+      }
     }
   }
 

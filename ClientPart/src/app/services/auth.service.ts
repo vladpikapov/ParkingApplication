@@ -26,6 +26,7 @@ export class AuthService {
       email, password
     }).pipe(
       tap(token => {
+        console.log(token);
         localStorage.setItem(ACCESS_TOKEN_KEY, token.access_token);
         this.router.navigate(['']);
       })

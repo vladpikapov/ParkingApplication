@@ -1,10 +1,12 @@
 ﻿using ServerPart.Data.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace ServerPart.Data.Models.AuthModels
 {
+    [Table("ACCOUNTS")]
     public class Account
     {
         public int Id { get; set; }
@@ -13,6 +15,11 @@ namespace ServerPart.Data.Models.AuthModels
 
         public string Password { get; set; }
 
-        public RoleEnum Role { get; set; }
+        [Column("ROLE_ID")]
+        public RoleEnum RoleId { get; set; }
+
+        public int WalletId { get; set; }
+
+        public Wallet Wallet { get; set; }
     }
 }

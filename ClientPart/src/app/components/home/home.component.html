@@ -6,10 +6,13 @@
           Карта парковок
         </div>
         <div class="card-body mx-auto my-auto">
-          <agm-map id="map" style="height: 500px; width: 700px" [zoom]="16" [disableDoubleClickZoom]="true"
-                   [disableDefaultUI]="true" maxZoom="16" [longitude]="26.0666821" [latitude]="53.1490789">
-            <!--<agm-data-layer></agm-data-layer>-->
-          </agm-map>
+          <app-osm-view
+            class="map"
+            [center]="[3091239.69,7155754.11]"
+            [zoom]="11.5"
+            (mapReady)="onMapReady($event)"
+          >
+          </app-osm-view>
         </div>
       </div>
     </div>

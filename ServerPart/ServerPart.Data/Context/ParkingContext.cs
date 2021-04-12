@@ -19,7 +19,7 @@ namespace ServerPart.Data.Context
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public void Delete(Parking item)
+        public void Delete(int itemId)
         {
             if (!string.IsNullOrEmpty(connectionString))
             {
@@ -27,7 +27,7 @@ namespace ServerPart.Data.Context
                 try
                 {
                     connection.Open();
-                    connection.Query<Order>(QueryManager.GetQueryForDelete("[dbo].PARKINGS", item.Id));
+                    connection.Query<Order>(QueryManager.GetQueryForDelete("[dbo].PARKINGS", itemId));
                 }
                 finally
                 {
@@ -48,7 +48,7 @@ namespace ServerPart.Data.Context
             try
             {
                 connection.Open();
-                parking = connection.QueryFirstOrDefault<Parking>(QueryManager.GetQueryForSelect("[dbo].PARKING", id));
+                parking = connection.QueryFirstOrDefault<Parking>(QueryManager.GetQueryForSelect("[dbo].PARKINGS", id));
             }
             finally
             {
@@ -64,7 +64,7 @@ namespace ServerPart.Data.Context
             try
             {
                 connection.Open();
-                parkings = connection.Query<Parking>(QueryManager.GetQueryForSelect("[dbo].PARKING"));
+                parkings = connection.Query<Parking>(QueryManager.GetQueryForSelect("[dbo].PARKINGS"));
             }
             finally
             {

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "DVu4w0nCTlWlxb82mXsbB5p2x+iDG2oriGy5Rll6C/QNIwE7pO8tT5PVmLPSx7yG8kCdfcflbBSnTO7bZ+3MnQ==",
+  "dgSpecHash": "any+AydNMtnqxrsdtQBihbouws4BTI1QP7oUYm3yONsf3SQwczA7+20ySA7QkyALDIynpDeaWN9EIJ3rViLDTw==",
   "success": true,
   "projectFilePath": "D:\\Vlad`s projects\\Diplom\\ParkingApplication\\ServerPart\\ServerPart\\ServerPart.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\5.0.0\\microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\5.0.0\\microsoft.extensions.logging.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.options\\5.0.0\\microsoft.extensions.options.5.0.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\6.8.0\\microsoft.identitymodel.jsonwebtokens.6.8.0.nupkg.sha512",

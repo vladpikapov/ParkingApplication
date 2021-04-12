@@ -18,7 +18,7 @@ namespace ServerPart.Data.Context
             ConnectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public void Delete(ParkingRaiting item)
+        public void Delete(int itemId)
         {
             throw new NotImplementedException();
         }
@@ -30,7 +30,7 @@ namespace ServerPart.Data.Context
 
         public IEnumerable<ParkingRaiting> GetParkingList(int id)
         {
-            string sql = $"SELECT * FROM PARKING_RAITING WHERE PARKINGID = {id}";
+            string sql = $"SELECT * FROM PARKING_RAITING WHERE PARKING_ID = {id}";
             var connection = new SqlConnection(ConnectionString);
             IEnumerable<ParkingRaiting> parkingRaitings = null;
             try

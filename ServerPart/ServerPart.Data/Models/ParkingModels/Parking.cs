@@ -22,5 +22,7 @@ namespace ServerPart.Data.Models.ParkingModels
         public decimal CostPerHour { get; set; }
 
         public double ParkingRaiting { get; set; }
+
+        public ParkingSettings ParkingSettings { get; set; }
     }
 }

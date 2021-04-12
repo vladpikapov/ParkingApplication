@@ -1,5 +1,6 @@
-import {MapsAPILoader} from '@agm/core';
 import {Component, OnInit} from '@angular/core';
+
+declare var ol: any;
 
 @Component({
   selector: 'app-home',
@@ -8,25 +9,25 @@ import {Component, OnInit} from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private apiLoader: MapsAPILoader) {
+  latitude = 0;
+  longitude = 0;
+
+  onMapReady($event): void {
+    console.log($event);
+    console.log('Map ready');
+
   }
 
-  lat: any;
-  lng: any;
-  getAddress: any;
+  constructor() {
+    navigator.geolocation.getCurrentPosition(x => {
+      this.latitude = x.coords.latitude;
+      this.longitude = x.coords.longitude;
+      console.log(this.latitude);
+      console.log(this.longitude);
+    });
+  }
 
   ngOnInit(): void {
-    this.get();
-  }
 
-  get() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position: Position) => {
-        if (position) {
-          this.lat = position.coords.latitude;
-          this.lng = position.coords.longitude;
-        }
-      });
-    }
   }
 }

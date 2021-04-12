@@ -18,6 +18,11 @@ namespace ServerPart.Logic.Managers
             ParkingContext = parkingContext;
         }
 
+        public IEnumerable<Order> GetAllOrders()
+        {
+            return OrderContext.GetAll();
+        }
+
         public IEnumerable<Order> GetUserHistoryOrders(int userId)
         {
             var orders = OrderContext.GetAll().Where(x => x.OrderUserId == userId);
@@ -39,6 +44,11 @@ namespace ServerPart.Logic.Managers
         public void UpdateOrder(Order order)
         {
             OrderContext.Update(order);
+        }
+
+        public void DeleteOrder(int orderId)
+        {
+            OrderContext.Delete(orderId);
         }
     }
 }

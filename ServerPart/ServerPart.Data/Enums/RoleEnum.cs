@@ -8,5 +8,6 @@ namespace ServerPart.Data.Enums
     {
         User = 1,
         Admin = 2,
+        Dispatcher = 3
     }
 }

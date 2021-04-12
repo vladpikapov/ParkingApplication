@@ -11,21 +11,22 @@ import {environment} from "../environments/environment";
 import {JwtModule} from "@auth0/angular-jwt";
 import {ACCESS_TOKEN_KEY} from "./services/auth.service";
 import {RouterModule} from "@angular/router";
-import { LoginComponent } from './components/login/login.component';
-import { OrderFormComponent } from './components/order-form/order-form.component';
-import { OrderHistoryListComponent } from './components/order-history-list/order-history-list.component';
-import { RegistrationComponent } from './components/registration/registration.component';
+import {LoginComponent} from './components/login/login.component';
+import {OrderFormComponent} from './components/order-form/order-form.component';
+import {OrderHistoryListComponent} from './components/order-history-list/order-history-list.component';
+import {RegistrationComponent} from './components/registration/registration.component';
 import {
   DxButtonModule,
   DxDataGridModule,
   DxDateBoxModule,
   DxFormModule,
   DxPopupModule,
-  DxSelectBoxModule, DxTextBoxModule
+  DxSelectBoxModule,
+  DxTextBoxModule
 } from "devextreme-angular";
-import { ParkingListComponent } from './components/parking-list/parking-list.component';
-import {AgmCoreModule} from "@agm/core";
-import { OrderActiveListComponent } from './components/order-active-list/order-active-list.component';
+import {ParkingListComponent} from './components/parking-list/parking-list.component';
+import {OrderActiveListComponent} from './components/order-active-list/order-active-list.component';
+import {OsmViewComponent} from './components/osm-view/osm-view.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -41,6 +42,7 @@ export function tokenGetter() {
     RegistrationComponent,
     ParkingListComponent,
     OrderActiveListComponent,
+    OsmViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,9 +60,6 @@ export function tokenGetter() {
     }),
     DxFormModule,
     DxButtonModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDuDfDetAxfs-LguEovtB5NyOgZwhHrx5U'
-    }),
     DxDateBoxModule,
     DxSelectBoxModule,
     DxPopupModule,

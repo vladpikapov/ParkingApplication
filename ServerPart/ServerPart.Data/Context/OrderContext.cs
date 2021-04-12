@@ -19,7 +19,7 @@ namespace ServerPart.Data.Context
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public void Delete(Order item)
+        public void Delete(int itemId)
         {
             if (!string.IsNullOrEmpty(connectionString))
             {
@@ -27,7 +27,7 @@ namespace ServerPart.Data.Context
                 try
                 {
                     connection.Open();
-                    connection.Query<Order>(QueryManager.GetQueryForDelete("[dbo].ORDERS", item.Id));
+                    connection.Query<Order>(QueryManager.GetQueryForDelete("[dbo].ORDERS", itemId));
                 }
                 finally
                 {

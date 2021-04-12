@@ -29,24 +29,6 @@ namespace ServerPart.Controllers
 
         }
 
-        private List<Account> Accounts => new List<Account>
-        {
-            new Account()
-            {
-                Id = 1,
-                Email = "user@mail.com",
-                Password = "user",
-                Role = RoleEnum.User
-            },
-            new Account()
-            {
-                Id = 2,
-                Email = "admin@mail.com",
-                Password = "admin",
-                Role = RoleEnum.Admin
-            }
-        };
-
         [HttpPost]
         [Route("[action]")]
         public IActionResult Login([FromBody] Login model)

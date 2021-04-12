@@ -19,7 +19,7 @@ namespace ServerPart.Data.Context
             ConnectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public void Delete(Account item)
+        public void Delete(int itemId)
         {
             throw new NotImplementedException();
         }
@@ -31,7 +31,19 @@ namespace ServerPart.Data.Context
 
         public Account Get(int id)
         {
-            throw new NotImplementedException();
+            string query = $"SELECT * FROM ACCOUNTS WHERE ID = {id}";
+            var connection = new SqlConnection(ConnectionString);
+            Account account = null;
+            try
+            {
+                connection.Open();
+                account = connection.QueryFirstOrDefault<Account>(query);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return account;
         }
 
         public IEnumerable<Account> GetAll()
@@ -54,7 +66,7 @@ namespace ServerPart.Data.Context
         public void Insert(Account item)
         {
 
-            string sql = $"INSERT INTO ACCOUNTS VALUES ('{item.Email}','{CryptoHelper.GetHash(item.Password)}', 1)";
+            string sql = $"INSERT INTO ACCOUNTS([EMAIL],[PASSWORD], [ROLEID]) VALUES ('{item.Email}','{CryptoHelper.GetHash(item.Password)}', 1)";
             var connection = new SqlConnection(ConnectionString);
             try
             {
@@ -63,7 +75,7 @@ namespace ServerPart.Data.Context
             }
             catch(Exception ex)
             {
-                throw new Exception();
+                throw ex;
             }
             finally
             {
@@ -73,7 +85,17 @@ namespace ServerPart.Data.Context
 
         public void Update(Account item)
         {
-            throw new NotImplementedException();
+            var query = $"UPDATE ACCOUNTS SET EMAIL = '{item.Email}', [PASSWORD] = '{CryptoHelper.GetHash(item.Password)}' WHERE [ID] = '{item.Id}'";
+            var connection = new SqlConnection(ConnectionString);
+            try
+            {
+                connection.Open();
+                connection.Query(query);
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
 }

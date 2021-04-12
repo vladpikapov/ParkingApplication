@@ -6,6 +6,7 @@ import {Observable} from "rxjs";
 import {Token} from "../Models/token";
 import {HttpClient} from "@angular/common/http";
 import {tap} from "rxjs/operators";
+import {Account} from "../Models/Account";
 
 export const ACCESS_TOKEN_KEY = 'bookstore_access_token';
 
@@ -13,6 +14,8 @@ export const ACCESS_TOKEN_KEY = 'bookstore_access_token';
   providedIn: 'root'
 })
 export class AuthService {
+
+  public currentUser: Account;
 
   constructor(private http: HttpClient,
               @Inject(AUTH_API_URL) private apiUrl: string,
@@ -26,15 +29,15 @@ export class AuthService {
       email, password
     }).pipe(
       tap(token => {
-        console.log(token);
         localStorage.setItem(ACCESS_TOKEN_KEY, token.access_token);
+        console.log(this.jwtHelper.decodeToken(token.access_token));
         this.router.navigate(['']);
       })
     );
   }
 
   // tslint:disable-next-line:typedef
-  registration(email: string, password: string){
+  registration(email: string, password: string) {
     return this.http.post(`${this.apiUrl}api/auth/Registration`, {
       email, password
     });

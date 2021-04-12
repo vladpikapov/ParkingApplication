@@ -12,6 +12,7 @@ using Dapper;
 using System.Linq;
 using ServerPart.Data.Context;
 using ServerPart.Data.Helper;
+using Microsoft.Extensions.Logging;
 
 namespace ServerPart.Logic.Managers
 {
@@ -19,12 +20,15 @@ namespace ServerPart.Logic.Managers
     {
         private readonly IOptions<AuthOptions> authOptions;
         private UserContext userContext;
+        //private ILogger Logger;
+
 
 
         public AuthManager(IOptions<AuthOptions> authOptions, UserContext userContext)
         {
             this.authOptions = authOptions;
             this.userContext = userContext;
+            //Logger = logger;
         }
 
         public string GenerateJWT(Account user)
@@ -38,7 +42,7 @@ namespace ServerPart.Logic.Managers
             {
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim("role", user.Role.ToString())
+                new Claim("role", user.RoleId.ToString())
             };
 
             var token = new JwtSecurityToken(authParams.Issuer,
@@ -67,11 +71,13 @@ namespace ServerPart.Logic.Managers
             {
                 userContext.Insert(new Account { Email = email, Password = password });
             }
-            catch
+            catch(Exception ex)
             {
+                //Logger.LogError(ex.Message, ex);
                 return false;
             }
             return true;
         }
+
     }
 }

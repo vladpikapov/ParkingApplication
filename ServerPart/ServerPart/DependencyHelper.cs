@@ -15,10 +15,14 @@ namespace ServerPart
             services.AddSingleton<AuthManager>();
             services.AddSingleton<OrderContext>();
             services.AddSingleton<ParkingContext>();
+            services.AddSingleton<ParkingSettingsContext>();
+            services.AddSingleton<WalletContext>();
             services.AddSingleton<ParkingRaitingContext>();
             services.AddSingleton<UserContext>();
+            services.AddSingleton<WalletContext>();
             services.AddSingleton<OrderManager>();
             services.AddSingleton<ParkingManager>();
+            services.AddSingleton<AccountManager>();
         }
     }
 }

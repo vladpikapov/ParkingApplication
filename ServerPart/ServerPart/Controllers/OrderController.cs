@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ServerPart.Data.Models.ParkingModels;
 using ServerPart.Logic.Managers;
@@ -42,6 +39,12 @@ namespace ServerPart.Controllers
         public void UpdateOrder([FromBody] Order order)
         {
             OrderManager.UpdateOrder(order);
+        }
+
+        [HttpDelete("[action]/{orderId}")]
+        public void DeleteOrder([FromRoute] int orderId)
+        {
+            OrderManager.DeleteOrder(orderId);
         }
     }
 }

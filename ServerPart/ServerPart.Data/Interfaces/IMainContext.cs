@@ -10,6 +10,6 @@ namespace ServerPart.Data.Interfaces
         T Get(int id);
         void Insert(T item);
         void Update(T item);
-        void Delete(T item);
+        void Delete(int itemId);
     }
 }

@@ -47,3 +47,4 @@ D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\net
 D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\netcoreapp3.1\publish\appsettings.json
 D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\netcoreapp3.1\publish\ServerPart.deps.json
 D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\netcoreapp3.1\publish\ServerPart.runtimeconfig.json
+D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll

@@ -7,6 +7,6 @@ D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart.Logic\obj\Deb
 D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart.Logic\obj\Debug\netcoreapp3.1\ServerPart.Logic.AssemblyInfo.cs
 D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart.Logic\obj\Debug\netcoreapp3.1\ServerPart.Logic.csproj.CopyComplete
 D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart.Logic\bin\Debug\netcoreapp3.1\ServerPart.Logic.pdb
-D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart.Logic\obj\Debug\netcoreapp3.1\ServerPart.Logic.csproj.CoreCompileInputs.cache
 D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart.Logic\obj\Debug\netcoreapp3.1\ServerPart.Logic.dll
 D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart.Logic\obj\Debug\netcoreapp3.1\ServerPart.Logic.pdb
+D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart.Logic\obj\Debug\netcoreapp3.1\ServerPart.Logic.csproj.CoreCompileInputs.cache

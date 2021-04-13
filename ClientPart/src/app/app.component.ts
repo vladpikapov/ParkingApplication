@@ -17,4 +17,13 @@ export class AppComponent {
   logout() {
     this.as.logout();
   }
+
+  getRole() {
+    return this.as.currentUser.Role;
+  }
+
+  getName() {
+    return this.as.currentUser.Email;
+  }
+
 }

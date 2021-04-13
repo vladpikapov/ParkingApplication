@@ -1,4 +1,5 @@
 ﻿using ServerPart.Data.Enums;
+using ServerPart.Data.Models.AuthModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,6 +16,8 @@ namespace ServerPart.Data.Models.ParkingModels
         public DateTime OrderEndDate { get; set; }
 
         public OrderEnum OrderStatus { get; set; }
+
+        public Account Account { get; set; }
 
         public int OrderUserId { get; set; }
 

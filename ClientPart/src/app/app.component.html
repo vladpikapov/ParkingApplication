@@ -8,6 +8,10 @@
       <button *ngIf="isLoggedIn" class="btn btn-outline-light mr-2" style="margin-left: 1250px" [routerLink]="['/login']"
               (click)="logout()">Logout
       </button>
+
+    </div>
+    <div class="row" *ngIf="isLoggedIn">
+      <a *ngIf="isLoggedIn" style="color:white">{{getName()}}</a>
     </div>
     <div class="row" *ngIf="!isLoggedIn">
       <button class="btn btn-outline-light" [routerLink]="['/login']">Login</button>

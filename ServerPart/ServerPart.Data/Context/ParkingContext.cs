@@ -23,11 +23,11 @@ namespace ServerPart.Data.Context
         {
             if (!string.IsNullOrEmpty(connectionString))
             {
-                SqlConnection connection = new SqlConnection(connectionString);
+                var connection = new SqlConnection(connectionString);
                 try
                 {
                     connection.Open();
-                    connection.Query<Order>(QueryManager.GetQueryForDelete("[dbo].PARKINGS", itemId));
+                    connection.Query<Order>(QueryManager.GetQueryForDelete("[dbo].PARKING", itemId));
                 }
                 finally
                 {
@@ -43,12 +43,12 @@ namespace ServerPart.Data.Context
 
         public Parking Get(int id)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            var connection = new SqlConnection(connectionString);
             Parking parking = null;
             try
             {
                 connection.Open();
-                parking = connection.QueryFirstOrDefault<Parking>(QueryManager.GetQueryForSelect("[dbo].PARKINGS", id));
+                parking = connection.QueryFirstOrDefault<Parking>(QueryManager.GetQueryForSelect("[dbo].PARKING", id));
             }
             finally
             {
@@ -64,7 +64,7 @@ namespace ServerPart.Data.Context
             try
             {
                 connection.Open();
-                parkings = connection.Query<Parking>(QueryManager.GetQueryForSelect("[dbo].PARKINGS"));
+                parkings = connection.Query<Parking>(QueryManager.GetQueryForSelect("[dbo].PARKING"));
             }
             finally
             {
@@ -90,7 +90,17 @@ namespace ServerPart.Data.Context
 
         public void Update(Parking item)
         {
-            throw new NotImplementedException();
+            var connection = new SqlConnection(connectionString);
+            try
+            {
+                var query = $"UPDATE [dbo].PARKING set [ADDRESS] = '{item.Address}', LATITUDE = {item.Latitude}, LONGITUDE = {item.Longitude}, CAPACITY = {item.Capacity}, COST_PER_HOUR = {item.CostPerHour} WHERE [ID] = {item.Id}";
+                connection.Open();
+                connection.Query(query);
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
 }

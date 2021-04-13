@@ -15,7 +15,7 @@ export const ACCESS_TOKEN_KEY = 'bookstore_access_token';
 })
 export class AuthService {
 
-  public currentUser: Account;
+  public currentUser: Account = new Account();
 
   constructor(private http: HttpClient,
               @Inject(AUTH_API_URL) private apiUrl: string,
@@ -30,14 +30,13 @@ export class AuthService {
     }).pipe(
       tap(token => {
         localStorage.setItem(ACCESS_TOKEN_KEY, token.access_token);
-        console.log(this.jwtHelper.decodeToken(token.access_token));
+        this.setUserData(token.access_token);
         this.router.navigate(['']);
       })
     );
   }
 
-  // tslint:disable-next-line:typedef
-  registration(email: string, password: string) {
+  registration(email: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}api/auth/Registration`, {
       email, password
     });
@@ -45,7 +44,16 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     const token = localStorage.getItem(ACCESS_TOKEN_KEY);
+    if (!this.currentUser.Email) {
+      this.setUserData(token);
+    }
     return token && !this.jwtHelper.isTokenExpired(token);
+  }
+
+  setUserData(token: any): void {
+    const decodeToken = this.jwtHelper.decodeToken(token);
+    this.currentUser.Email = decodeToken.email;
+    this.currentUser.Role = decodeToken.role;
   }
 
   logout(): void {

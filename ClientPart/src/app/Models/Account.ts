@@ -4,7 +4,7 @@ export class Account {
   Id: number;
   Email: string;
   Password: string;
-  Role: RoleEnum;
+  Role: any;
   WalletId: number;
   Wallet: Wallet;
 }

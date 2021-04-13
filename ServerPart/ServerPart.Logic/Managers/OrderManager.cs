@@ -9,13 +9,15 @@ namespace ServerPart.Logic.Managers
 {
     public class OrderManager
     {
-        private OrderContext OrderContext;
-        private ParkingContext ParkingContext;
+        protected OrderContext OrderContext;
+        protected ParkingContext ParkingContext;
+        protected UserContext UserContext;
 
-        public OrderManager(OrderContext orderContext, ParkingContext parkingContext)
+        public OrderManager(OrderContext orderContext, ParkingContext parkingContext, UserContext userContext)
         {
             OrderContext = orderContext;
             ParkingContext = parkingContext;
+            UserContext = userContext;
         }
 
         public IEnumerable<Order> GetAllOrders()
@@ -29,6 +31,7 @@ namespace ServerPart.Logic.Managers
             var parkings = ParkingContext.GetAll();
             foreach(var order in orders)
             {
+                order.Account = UserContext.Get(userId);
                 order.Parking = parkings.FirstOrDefault(x => x.Id == order.OrderParkingId);
                 order.OrderStartDate = order.OrderStartDate.ToLocalTime();
                 order.OrderEndDate = order.OrderEndDate.ToLocalTime();
@@ -49,6 +52,16 @@ namespace ServerPart.Logic.Managers
         public void DeleteOrder(int orderId)
         {
             OrderContext.Delete(orderId);
+        }
+
+        public Order GetOrder(int orderId)
+        {
+            var order = OrderContext.Get(orderId);
+            order.Account = UserContext.Get(order.OrderUserId);
+            order.Parking = ParkingContext.Get(order.OrderParkingId);
+            order.OrderStartDate = order.OrderStartDate.ToLocalTime();
+            order.OrderEndDate = order.OrderEndDate.ToLocalTime();
+            return order;
         }
     }
 }

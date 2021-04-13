@@ -23,6 +23,15 @@ namespace ServerPart.Data.Context
         {
             var connection = new SqlConnection(connectionString);
             var query = $"DELETE FROM PARKING_SETTINGS WHERE PARKINGID = {itemId}";
+            try
+            {
+                connection.Open();
+                connection.Query(query);
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
 
         public void Dispose()

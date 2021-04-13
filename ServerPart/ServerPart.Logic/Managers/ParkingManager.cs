@@ -9,39 +9,29 @@ namespace ServerPart.Logic.Managers
 {
     public class ParkingManager
     {
-        private ParkingContext ParkingContext;
-        private ParkingRaitingContext prContext;
-        private OrderContext OrderContext;
-        private OrderManager oManager;
+        protected ParkingContext ParkingContext;
+        protected ParkingRaitingContext prContext;
+        protected OrderContext OrderContext;
+        protected OrderManager oManager;
+        protected ParkingSettingsContext psContext;
 
-        public ParkingManager(ParkingContext parkingContext, OrderContext orderContext, ParkingRaitingContext parkingRaitingContext, OrderManager orderManager)
+        public ParkingManager(ParkingContext parkingContext, OrderContext orderContext, ParkingRaitingContext parkingRaitingContext, OrderManager orderManager, ParkingSettingsContext parkingSettingsContext)
         {
             ParkingContext = parkingContext;
             OrderContext = orderContext;
             prContext = parkingRaitingContext;
             oManager = orderManager;
+            psContext = parkingSettingsContext;
         }
 
         public IEnumerable<Parking> GetParkings()
         {
-            var dateNow = DateTime.Now;
-            var parkingsIdOrder = OrderContext.GetAll().Where(x => x.OrderStartDate <= dateNow && dateNow <= x.OrderEndDate ).Select(x => x.OrderParkingId);
             var allParkings = ParkingContext.GetAll();
             allParkings.ToList().ForEach(x =>
             {
                 x.ParkingRaiting = GetParkingRaiting(x.Id);
+                x.ParkingSettings = psContext.Get(x.Id);
             });
-            if (parkingsIdOrder != null && parkingsIdOrder.Any())
-            {
-                foreach (var parking in allParkings)
-                {
-                    
-                    if (parkingsIdOrder.Contains(parking.Id))
-                    {
-                        parking.Capacity--;
-                    }
-                }
-            }
             return allParkings;
         }
 

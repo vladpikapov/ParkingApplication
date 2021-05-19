@@ -20,14 +20,18 @@ namespace ServerPart.Logic.Managers
     {
         private readonly IOptions<AuthOptions> authOptions;
         private UserContext userContext;
+        private WalletContext walletContext;
+        private MailManager mailManager;
         //private ILogger Logger;
 
 
 
-        public AuthManager(IOptions<AuthOptions> authOptions, UserContext userContext)
+        public AuthManager(IOptions<AuthOptions> authOptions, UserContext userContext, WalletContext walletContext, MailManager mailManager)
         {
             this.authOptions = authOptions;
             this.userContext = userContext;
+            this.walletContext = walletContext;
+            this.mailManager = mailManager;
             //Logger = logger;
         }
 
@@ -40,7 +44,7 @@ namespace ServerPart.Logic.Managers
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Email, user.Login),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim("role", user.RoleId.ToString())
             };
@@ -57,23 +61,25 @@ namespace ServerPart.Logic.Managers
         public Account AuthenticateUser(string email, string password)
         {
 
-            return userContext.GetAll().FirstOrDefault(x => x.Email.Equals(email) && x.Password.Equals(CryptoHelper.GetHash(password)));
+            return userContext.GetAll().FirstOrDefault(x =>x.Login.Equals(email) && x.Password.Equals(CryptoHelper.GetHash(password)));
 
         }
 
-        public bool RegistrationUser(string email, string password)
+        public bool RegistrationUser(LoginModel model)
         {
-            var user = userContext.GetAll().FirstOrDefault(x => x.Email.Equals(email));
+            var user = userContext.GetAll().FirstOrDefault(x => x.Login.Equals(model.Login));
             if (user != null)
                 return false;
 
             try
             {
-                userContext.Insert(new Account { Email = email, Password = password });
+                walletContext.Insert(new Wallet());
+                var getLastWallet = walletContext.GetAll().Last();
+                userContext.Insert(new Account { Login = model.Login, Password = model.Password, WalletId = getLastWallet.Id, Email = model.Email, CarNumber = model.CarNumber });
+                mailManager.SendCodeToMail(model.Email);
             }
             catch(Exception ex)
             {
-                //Logger.LogError(ex.Message, ex);
                 return false;
             }
             return true;

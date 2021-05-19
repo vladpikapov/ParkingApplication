@@ -34,7 +34,7 @@ namespace ServerPart.Controllers.Administator
         }
 
         [HttpPost("[action]")]
-        public void CreateParking(Parking parking)
+        public void CreateParking([FromBody]Parking parking)
         {
             apManager.CreateParking(parking);
         }
@@ -49,6 +49,12 @@ namespace ServerPart.Controllers.Administator
         public void DeleteParking([FromRoute]int parkingId)
         {
             apManager.DeleteParking(parkingId);
+        }
+
+        [HttpGet("[action]/{parkingId}")]
+        public bool CanDeleteParking([FromRoute]int parkingId)
+        {
+            return apManager.CanDeleteParking(parkingId);
         }
     }
 }

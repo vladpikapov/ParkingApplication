@@ -1,6 +1,11 @@
-//@import "node_modules/ol/ol.css";
-.map-container {
-  width: inherit;
-  height: inherit;
-  z-index: 1;
+#map {
+  height: 700px;
+}
+
+#details-panel {
+  text-align: left;
+}
+
+.leaflet-bottom, .leaflet-left {
+  pointer-events: auto;
 }

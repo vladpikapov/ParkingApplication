@@ -1,0 +1,10 @@
+<div id="results-list">
+
+  <div id="results">
+    <ul style="width: 300px; height: 200px; overflow: auto">
+      <li *ngFor="let result of results" (click)="selectResult(result)">
+        {{ result.displayName }}
+      </li>
+    </ul>
+  </div>
+</div>

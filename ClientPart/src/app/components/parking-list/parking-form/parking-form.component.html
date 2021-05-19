@@ -1,0 +1,67 @@
+<div class="container-fluid">
+  <div class="row mt-5">
+    <dx-data-grid class="w-75 mx-auto " [showBorders]="true" [dataSource]="dataSource" height="400"
+                  (onToolbarPreparing)="onToolbarPreparing($event)">
+      <dxo-export [enabled]="true"></dxo-export>
+      <dxo-scrolling mode="infinite"></dxo-scrolling>
+      <dxi-column dataField="address" caption="Адрес" alignment="center"></dxi-column>
+      <dxi-column dataField="capacity" caption="Вместимость" alignment="center"></dxi-column>
+      <dxi-column dataField="costPerHour" caption="Стоимость" alignment="center"></dxi-column>
+      <dxi-column dataField="parkingRaiting" caption="Рейтинг" alignment="center"></dxi-column>
+      <dxi-column [width]="100" cellTemplate="editButtonTemplate" alignment="center"></dxi-column>
+      <dxi-column [width]="100" cellTemplate="deleteButtonTemplate" alignment="center"></dxi-column>
+      <div *dxTemplate="let elem of 'editButtonTemplate'">
+        <dx-button (onClick)="editParking(elem)" icon="edit"></dx-button>
+      </div>
+      <div *dxTemplate="let elem of 'deleteButtonTemplate'">
+        <dx-button [disabled]="canDeleteParking(elem)" (onClick)="dropParking(elem)" icon="trash"></dx-button>
+      </div>
+    </dx-data-grid>
+  </div>
+</div>
+
+<dx-popup [(visible)]="popupVisible" (onHiding)="closePopup(parkingForm)">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-4">
+        <div>
+          <dx-scroll-view [scrollByContent]="true">
+          <dx-form [(formData)]="formData" #parkingForm [colCount]="2">
+            <dxi-item caption="Parking information" itemType="group">
+              <dxi-item dataField="address">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+              </dxi-item>
+              <dxi-item dataField="latitude" disabled="true">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+              </dxi-item>
+              <dxi-item dataField="longitude" disabled="true">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+              </dxi-item>
+              <dxi-item dataField="capacity" editorType="dxNumberBox">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+              </dxi-item>
+              <dxi-item dataField="costPerHour" editorType="dxNumberBox" [editorOptions]="{format: '#,##0.00'}" [label]="{text:'Cost per hour'}">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+              </dxi-item>
+            </dxi-item>
+            <dxi-item itemType="group" caption="Parking settings">
+              <dxi-item dataField="parkingSettings.forPeopleWithDisabilities"
+                        [label]="{text:'For people with disabilities'}"
+                        editorType="dxCheckBox"></dxi-item>
+              <dxi-item dataField="parkingSettings.allTimeService" editorType="dxCheckBox"
+                        [label]="{text:'All time service'}"></dxi-item>
+              <dxi-item dataField="parkingSettings.cctv" editorType="dxCheckBox" [label]="{text:'CCTV'}"></dxi-item>
+              <dxi-item dataField="parkingSettings.leaveTheCarKeys" editorType="dxCheckBox"
+                        [label]="{text:'Leave the car keys'}"></dxi-item>
+            </dxi-item>
+          </dx-form>
+          <dx-button (onClick)="saveParking(parkingForm)" >Save</dx-button>
+          </dx-scroll-view>
+        </div>
+      </div>
+      <div class="col-8">
+        <app-oms-view (mapPointChange)="mapPointChange($event)" [isUser]="false"></app-oms-view>
+      </div>
+    </div>
+  </div>
+</dx-popup>

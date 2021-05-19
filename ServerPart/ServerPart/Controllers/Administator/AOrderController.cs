@@ -17,7 +17,7 @@ namespace ServerPart.Controllers.Administator
     {
         OrderManager m_OrderManager;
 
-        public AOrderController(AdminOrderManager orderManager)
+        public AOrderController(OrderManager orderManager)
         {
             m_OrderManager = orderManager;
         }
@@ -25,7 +25,7 @@ namespace ServerPart.Controllers.Administator
         [HttpGet("[action]/{userId}")]
         public IEnumerable<Order> GetUserOrders([FromRoute] int userId)
         {
-            return m_OrderManager.GetAllOrders().Where(x => x.OrderUserId == userId);
+            return m_OrderManager.GetUserHistoryOrders(userId);
         }
 
         [HttpPut("[action]")]

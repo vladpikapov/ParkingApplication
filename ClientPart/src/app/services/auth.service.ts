@@ -7,8 +7,10 @@ import {Token} from "../Models/token";
 import {HttpClient} from "@angular/common/http";
 import {tap} from "rxjs/operators";
 import {Account} from "../Models/Account";
+import {UserService} from "./user.service";
 
 export const ACCESS_TOKEN_KEY = 'bookstore_access_token';
+export const CONFIRM_USER = 'confirm_user_token';
 
 @Injectable({
   providedIn: 'root'
@@ -20,40 +22,53 @@ export class AuthService {
   constructor(private http: HttpClient,
               @Inject(AUTH_API_URL) private apiUrl: string,
               private jwtHelper: JwtHelperService,
-              private router: Router) {
+              private router: Router, private userService: UserService) {
 
   }
 
-  login(email: string, password: string): Observable<Token> {
+  login(login: string, password: string): Observable<Token> {
     return this.http.post<Token>(`${this.apiUrl}api/auth/Login`, {
-      email, password
+      login, password
     }).pipe(
       tap(token => {
         localStorage.setItem(ACCESS_TOKEN_KEY, token.access_token);
+        localStorage.setItem(CONFIRM_USER, token.confirm_email.toString());
         this.setUserData(token.access_token);
-        this.router.navigate(['']);
+        // this.router.navigate(['']);
       })
     );
   }
 
-  registration(email: string, password: string): Observable<any> {
+  registration(login: string, password: string, email: string, carNumber: string): Observable<any> {
     return this.http.post(`${this.apiUrl}api/auth/Registration`, {
-      email, password
+      login, password, email, carNumber
     });
   }
 
   isAuthenticated(): boolean {
     const token = localStorage.getItem(ACCESS_TOKEN_KEY);
-    if (!this.currentUser.Email) {
+    const confirmEmail = localStorage.getItem(CONFIRM_USER);
+    if (!this.currentUser.login && token) {
       this.setUserData(token);
     }
-    return token && !this.jwtHelper.isTokenExpired(token);
+    return token && !this.jwtHelper.isTokenExpired(token) && confirmEmail === '1';
+  }
+
+  isConfirmEmail(): boolean {
+    const confirmEmail = localStorage.getItem(CONFIRM_USER);
+    return confirmEmail === '1';
   }
 
   setUserData(token: any): void {
     const decodeToken = this.jwtHelper.decodeToken(token);
-    this.currentUser.Email = decodeToken.email;
-    this.currentUser.Role = decodeToken.role;
+    if (decodeToken) {
+      this.currentUser.id = Number.parseInt(decodeToken.sub, 0);
+      this.currentUser.login = decodeToken.email;
+      this.currentUser.role = decodeToken.role;
+      setTimeout(() => {
+        this.userService.getUserWallet(this.currentUser.id).subscribe(res => this.currentUser.wallet = res);
+      }, 0);
+    }
   }
 
   logout(): void {

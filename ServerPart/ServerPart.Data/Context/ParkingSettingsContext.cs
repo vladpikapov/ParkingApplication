@@ -56,7 +56,7 @@ namespace ServerPart.Data.Context
             return parkingSettings;
         }
 
-        public IEnumerable<ParkingSettings> GetAll()
+        public List<ParkingSettings> GetAll()
         {
             var connection = new SqlConnection(connectionString);
             var query = "SELECT * FROM PARKING_SETTINGS";
@@ -76,7 +76,7 @@ namespace ServerPart.Data.Context
         public void Insert(ParkingSettings item)
         {
             var connection = new SqlConnection(connectionString);
-            var query = $"INSERT INTO PARKING_SETTINGS(PARKINGID) VALUES ({item.ParkingId})";
+            var query = $"INSERT INTO PARKING_SETTINGS(PARKINGID, [ForPeopleWithDisabilities],[AllTimeService],[CCTV],[LeaveTheCarKeys]) VALUES ({item.ParkingId}, {item.ForPeopleWithDisabilities}, {item.AllTimeService}, {item.CCTV}, {item.LeaveTheCarKeys})";
             try
             {
                 connection.Open();

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace ServerPart.Data.Context
 {
-    public class ParkingRaitingContext : IMainContext<ParkingRaiting>
+    public class ParkingRaitingContext : IMainContext<ParkingRating>
     {
         private string ConnectionString;
 
@@ -20,7 +20,32 @@ namespace ServerPart.Data.Context
 
         public void Delete(int itemId)
         {
-            throw new NotImplementedException();
+            SqlConnection connection = new SqlConnection(ConnectionString);
+            try
+            {
+                var query = $"DELETE FROM [dbo].[PARKING_RATING] WHERE ParkingId = {itemId}";
+                connection.Open();
+                connection.Query(query);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public void DeleteByUser(int itemId)
+        {
+            SqlConnection connection = new SqlConnection(ConnectionString);
+            try
+            {
+                var query = $"DELETE FROM [dbo].[PARKING_RATING] WHERE UserId = {itemId}";
+                connection.Open();
+                connection.Query(query);
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
 
         public void Dispose()
@@ -28,15 +53,15 @@ namespace ServerPart.Data.Context
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ParkingRaiting> GetParkingList(int id)
+        public IEnumerable<ParkingRating> GetParkingList(int id)
         {
-            string sql = $"SELECT * FROM PARKING_RAITING WHERE PARKING_ID = {id}";
+            string sql = $"SELECT * FROM PARKING_RATING WHERE ParkingId = {id}";
             var connection = new SqlConnection(ConnectionString);
-            IEnumerable<ParkingRaiting> parkingRaitings = null;
+            IEnumerable<ParkingRating> parkingRaitings = null;
             try
             {
                 connection.Open();
-                parkingRaitings = connection.Query<ParkingRaiting>(sql);
+                parkingRaitings = connection.Query<ParkingRating>(sql);
             }
             finally
             {
@@ -45,15 +70,15 @@ namespace ServerPart.Data.Context
             return parkingRaitings;
         }
 
-        public IEnumerable<ParkingRaiting> GetAll()
+        public List<ParkingRating> GetAll()
         {
-            string sql = $"SELECT * FROM PARKING_RAITING";
+            string sql = $"SELECT * FROM PARKING_RATING";
             var connection = new SqlConnection(ConnectionString);
-            IEnumerable<ParkingRaiting> parkingRaitings = null;
+            List<ParkingRating> parkingRaitings = new List<ParkingRating>();
             try
             {
                 connection.Open();
-                parkingRaitings = connection.Query<ParkingRaiting>(sql);
+                parkingRaitings.AddRange(connection.Query<ParkingRating>(sql));
             }
             finally
             {
@@ -62,14 +87,14 @@ namespace ServerPart.Data.Context
             return parkingRaitings;
         }
 
-        public void Insert(ParkingRaiting item)
+        public void Insert(ParkingRating item)
         {
-            string sql = $"INSERT INTO PARKING_RAITING VALUES ({item.UserId}, {item.ParkingId}, {item.UserRating})";
+            string sql = $"INSERT INTO PARKING_RATING VALUES ({item.UserId}, {item.ParkingId}, {item.UserRating})";
             var connection = new SqlConnection(ConnectionString);
             try
             {
                 connection.Open();
-                connection.Query<ParkingRaiting>(sql);
+                connection.Query<ParkingRating>(sql);
             }
             finally
             {
@@ -77,14 +102,14 @@ namespace ServerPart.Data.Context
             }
         }
 
-        public void Update(ParkingRaiting item)
+        public void Update(ParkingRating item)
         {
-            string sql = $"UPDATE PARKING_RAITING SET USERRATING = {item.UserRating} WHERE PARKINGID = {item.ParkingId} AND USERID =  {item.UserId}";
+            string sql = $"UPDATE PARKING_RATING SET USERRATING = {item.UserRating} WHERE PARKINGID = {item.ParkingId} AND USERID =  {item.UserId}";
             var connection = new SqlConnection(ConnectionString);
             try
             {
                 connection.Open();
-                connection.Query<ParkingRaiting>(sql);
+                connection.Query<ParkingRating>(sql);
             }
             finally
             {
@@ -92,7 +117,7 @@ namespace ServerPart.Data.Context
             }
         }
 
-        public ParkingRaiting Get(int id)
+        public ParkingRating Get(int id)
         {
             throw new NotImplementedException();
         }

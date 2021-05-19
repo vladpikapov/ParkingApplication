@@ -2,14 +2,15 @@ import {Parking} from './Parking';
 import {Account} from './Account';
 
 export class Order {
-  Id: number;
-  OrderStartDate: Date;
-  OrderEndDate: Date;
-  OrderStatus: OrderStatus;
-  Account: Account;
-  OrderUserId: number;
-  OrderParkingId: number;
-  Parking: Parking;
+  orderId: number;
+  orderStartDate: string;
+  orderEndDate: string;
+  orderStatus: OrderStatus;
+  account: Account;
+  orderUserId: number;
+  orderParkingId: number;
+  parking: Parking;
+  allCost: number;
 }
 
 export enum OrderStatus {
@@ -17,3 +18,4 @@ export enum OrderStatus {
   Dined = 2,
   Expired = 3
 }
+

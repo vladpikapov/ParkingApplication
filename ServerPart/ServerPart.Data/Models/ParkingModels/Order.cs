@@ -9,7 +9,7 @@ namespace ServerPart.Data.Models.ParkingModels
 {
     public class Order
     {
-        public int Id { get; set; }
+        public int OrderId { get; set; }
 
         public DateTime OrderStartDate { get; set; }
 
@@ -24,6 +24,8 @@ namespace ServerPart.Data.Models.ParkingModels
         public int OrderParkingId { get; set; }
 
         public Parking Parking { get; set; }
+
+        public double AllCost { get; set; }
 
     }
 }

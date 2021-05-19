@@ -5,13 +5,16 @@ using System.Text;
 
 namespace ServerPart.Data.Models.AuthModels
 {
-    public class Login
+    public class LoginModel
     {
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        public string Login { get; set; }
 
         [Required]
         public string Password { get; set; }
+
+        public string Email { get; set; }
+
+        public string CarNumber { get; set; }
     }
 }

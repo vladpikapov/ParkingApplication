@@ -1,7 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {DxFormComponent} from 'devextreme-angular';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-registration',
@@ -9,37 +10,47 @@ import {AuthService} from '../../services/auth.service';
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
+
+  @Output()
+  checkMailCode = new EventEmitter<boolean>();
+
   @ViewChild(DxFormComponent, {static: false})
   form: DxFormComponent;
 
   formData = {
-    mail: '',
+    login: '',
+    email: '',
+    carNumber: '',
     password: '',
     repeatPassword: ''
   };
 
-  constructor(private router: Router, private as: AuthService) {
+  constructor(private router: Router, private as: AuthService, private userService: UserService) {
 
   }
 
   ngOnInit(): void {
   }
 
-  registration() {
+  registration(): void {
     if (this.form && this.form.instance.validate().isValid) {
-      if(this.formData.password === this.formData.repeatPassword) {
-        this.as.registration(this.formData.mail, this.formData.password).subscribe(res => {
+      if (this.formData.password === this.formData.repeatPassword) {
+        this.as.registration(this.formData.login, this.formData.password, this.formData.email, this.formData.carNumber).subscribe(res => {
           if (res === false) {
             alert('Such a user already exist!');
           } else {
-            this.router.navigate(['/login']);
+            this.as.currentUser.login = this.formData.login;
+            this.checkMailCode.emit(true);
           }
         });
-      }
-      else{
+      } else {
         alert('Passwords must be equals!');
       }
     }
+  }
+
+  passwordComparison = () => {
+    return this.formData.password;
   }
 
   // validatePassword(e) {

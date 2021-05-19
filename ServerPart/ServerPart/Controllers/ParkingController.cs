@@ -38,16 +38,10 @@ namespace ServerPart.Controllers
         }
 
         [HttpPost("[action]")]
-        public void SetParkingRaiting([FromBody]ParkingRaiting raiting)
+        public void SetParkingRaiting([FromBody]ParkingRating raiting)
         {
             raiting.UserId = UserId;
             pManager.SetParkingRaiting(raiting);
-        }
-
-        [HttpGet("[action]")]
-        public IEnumerable<Parking> GetUserHistoryParking()
-        {
-            return pManager.GetUserHistoryParking(UserId);
         }
     }
 }

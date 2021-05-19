@@ -1,0 +1,10 @@
+<div class="container-fluid">
+  <div class="row col-12 justify-content-center"><h4>Please, enter the code sent to you by email</h4></div>
+  <div class="row justify-content-center col-12">
+    <dx-number-box [(value)]="userCode" [width]="300">
+    </dx-number-box>
+  </div>
+  <div class="row mt-4 col-12 justify-content-center">
+    <dx-button (onClick)="!isSettings ? ConfirmEmail(): updateEmail()">Подтвердить</dx-button>
+  </div>
+</div>

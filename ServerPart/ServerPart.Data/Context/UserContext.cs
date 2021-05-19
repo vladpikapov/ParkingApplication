@@ -21,7 +21,17 @@ namespace ServerPart.Data.Context
 
         public void Delete(int itemId)
         {
-            throw new NotImplementedException();
+            string query = $"delete from ACCOUNTS where ID = {itemId}";
+            var connection = new SqlConnection(ConnectionString);
+            try
+            {
+                connection.Open();
+                connection.Query(query);
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
 
         public void Dispose()
@@ -46,15 +56,15 @@ namespace ServerPart.Data.Context
             return account;
         }
 
-        public IEnumerable<Account> GetAll()
+        public List<Account> GetAll()
         {
             string sql = $"SELECT * FROM ACCOUNTS";
             var connection = new SqlConnection(ConnectionString);
-            IEnumerable<Account> accounts = null;
+            List<Account> accounts = new List<Account>();
             try
             {
                 connection.Open();
-                accounts = connection.Query<Account>(sql);
+                accounts.AddRange(connection.Query<Account>(sql));
             }
             finally
             {
@@ -66,7 +76,7 @@ namespace ServerPart.Data.Context
         public void Insert(Account item)
         {
 
-            string sql = $"INSERT INTO ACCOUNTS([EMAIL],[PASSWORD], [ROLEID]) VALUES ('{item.Email}','{CryptoHelper.GetHash(item.Password)}', 1)";
+            string sql = $"INSERT INTO ACCOUNTS([LOGIN],[PASSWORD], [ROLEID], [WalletId], [Email], [CarNumber], [CreateDate]) VALUES ('{item.Login}','{CryptoHelper.GetHash(item.Password)}', 1, {item.WalletId}, '{item.Email}', '{item.CarNumber}', '{DateTime.Now}')";
             var connection = new SqlConnection(ConnectionString);
             try
             {
@@ -83,9 +93,39 @@ namespace ServerPart.Data.Context
             }
         }
 
+        public void ConfirmEmail(string login)
+        {
+            var query = $"UPDATE ACCOUNTS SET [ConfirmEmail] = 1 where [Login] = '{login}'";
+            var connection = new SqlConnection(ConnectionString);
+            try
+            {
+                connection.Open();
+                connection.Query(query);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
         public void Update(Account item)
         {
-            var query = $"UPDATE ACCOUNTS SET EMAIL = '{item.Email}', [PASSWORD] = '{CryptoHelper.GetHash(item.Password)}' WHERE [ID] = '{item.Id}'";
+            var query = $"UPDATE ACCOUNTS SET [LOGIN] = '{item.Login}', [PASSWORD] = '{CryptoHelper.GetHash(item.Password)}', [CarNumber] = '{item.CarNumber}', [Email] = '{item.Email}', [LastLogin] = '{item.LastLogin}' WHERE [ID] = '{item.Id}'";
+            var connection = new SqlConnection(ConnectionString);
+            try
+            {
+                connection.Open();
+                connection.Query(query);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public void UpdateColumn(string data, string column, int userId)
+        {
+            var query = $"UPDATE ACCOUNTS SET {column} = '{data}' where [ID] = {userId}";
             var connection = new SqlConnection(ConnectionString);
             try
             {

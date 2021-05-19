@@ -2,7 +2,6 @@
 using ServerPart.Data.Context;
 using ServerPart.Logic.Managers;
 using ServerPart.Logic.Managers.AdminManagers;
-using ServerPart.Logic.Managers.DispatcherManagers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +24,8 @@ namespace ServerPart
             services.AddSingleton<OrderManager>();
             services.AddSingleton<ParkingManager>();
             services.AddSingleton<AccountManager>();
-            services.AddSingleton<AdminOrderManager>();
             services.AddSingleton<AdminParkingManager>();
-            services.AddSingleton<DispatcherOrderManager>();
+            services.AddSingleton<MailManager>();
         }
     }
 }

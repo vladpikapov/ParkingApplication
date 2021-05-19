@@ -1,18 +1,56 @@
-<div class="container-fluid">
-  <div class="row mt-5">
-    <dx-data-grid class="w-75 mx-auto " [showBorders]="true" [dataSource]="dataSource">
-      <dxi-column dataField="address" caption="Адрес" alignment="center"></dxi-column>
-      <dxi-column dataField="city" caption="Город" alignment="center"></dxi-column>
-      <dxi-column dataField="capacity" caption="Вместимость" alignment="center"></dxi-column>
-      <dxi-column dataField="parkingRaiting" caption="Рейтинг" alignment="center"></dxi-column>
-      <dxi-column [width]="50" cellTemplate="setRatingTemplate"></dxi-column>
-      <div *dxTemplate="let rating of 'setRatingTemplate'">
-        <dx-button (onClick)="setRating(rating)" icon="like"></dx-button>
+<dx-popup [(visible)]="orderPopup" title="Create order" [width]="300"
+          height="{{this.as.currentUser.role === 'Admin' ? 500: 400}}">
+  <app-order-form (orderComplete)="orderComplete()" [selectedParking]="selectParking"></app-order-form>
+</dx-popup>
+<dx-popup [(visible)]="visiblePopup" title="Set rating" [width]="270" [height]="200">
+  <dx-select-box #rate [items]="parkingRatings"></dx-select-box>
+  <dx-button (onClick)="saveRating(rate.value)" class="btn btn-outline-dark mt-4" style="margin-left: 40px">Save
+  </dx-button>
+</dx-popup>
+<div class="container-fluid mt-5 pl-0 pr-0">
+  <div class="row">
+    <div class="col-4">
+      <div class="row" *ngIf="this.as.currentUser.role == 'Admin'">
       </div>
-    </dx-data-grid>
+      <dx-list [items]="dataSource" [height]="700" (onItemClick)="showPopup($event)">
+        <div *dxTemplate="let item of 'item'">
+          <div class="row">
+            <div class="ml-4">
+              <div class="mt-1" title="{{item.address}}">Address: {{item.address}}</div>
+              <div class="mt-1">Parking rating: {{item.parkingRaiting}}</div>
+              <div class="mt-1">Cost per hour: {{item.costPerHour}} BYN</div>
+              <div class="mt-1">Free places: {{item.freePlaces}}</div>
+              <div class="mt-1">Capacity: {{item.capacity}}</div>
+              <div class="mt-1">
+                <img src="assets/icons/disabled.png" class="mr-2"
+                     [ngStyle]="{'display': item.parkingSettings?.forPeopleWithDisabilities == 1 ? '': 'none'}"
+                     [height]="25" [width]="25" alt=""
+                     title="For people with disabilities"/>
+                <img src="assets/icons/24-hours.png" class="mr-2"
+                     [ngStyle]="{'display': item.parkingSettings?.allTimeService == 1 ? '': 'none'}"
+                     [height]="25" [width]="25" alt=""
+                     title="24 hours service"/>
+                <img src="assets/icons/rental-car.png" class="mr-2" [height]="25"
+                     [ngStyle]="{'display': item.parkingSettings?.leaveTheCarKeys == 1 ? '': 'none'}"
+                     [width]="25"
+                     alt=""
+                     title="Leave the car keys"/>
+                <img src="assets/icons/security-camera.png"
+                     [ngStyle]="{'display': item.parkingSettings?.cctv == 1 ? '': 'none'}"
+                     [height]="25" [width]="25" alt=""
+                     title="CCTV"/>
+              </div>
+              <div class="mt-2 ml-0">
+                <dx-button icon="like" class="mr-3" (onClick)="setRating(item)"></dx-button>
+                <dx-button icon="add" [disabled]="item.freePlaces === 0" (onClick)="makeOrder(item)"></dx-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </dx-list>
+    </div>
+    <div class="col-8">
+      <app-oms-view [isUser]="true"></app-oms-view>
+    </div>
   </div>
 </div>
-<dx-popup [(visible)]="visiblePopup" title="Поставить рейтинг" [width]="270" [height]="200">
-  <dx-select-box #rate [items]="parkingRatings"></dx-select-box>
-  <dx-button (onClick)="saveRating(rate.value)" class="btn btn-outline-dark mt-4" style="margin-left: 40px">Сохранить</dx-button>
-</dx-popup>

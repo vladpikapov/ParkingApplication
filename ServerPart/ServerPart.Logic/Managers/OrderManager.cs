@@ -12,12 +12,16 @@ namespace ServerPart.Logic.Managers
         protected OrderContext OrderContext;
         protected ParkingContext ParkingContext;
         protected UserContext UserContext;
+        protected WalletContext WalletContext;
+        protected MailManager MailManager;
 
-        public OrderManager(OrderContext orderContext, ParkingContext parkingContext, UserContext userContext)
+        public OrderManager(OrderContext orderContext, ParkingContext parkingContext, UserContext userContext, WalletContext walletContext, MailManager mailManager)
         {
             OrderContext = orderContext;
             ParkingContext = parkingContext;
             UserContext = userContext;
+            WalletContext = walletContext;
+            MailManager = mailManager;
         }
 
         public IEnumerable<Order> GetAllOrders()
@@ -41,17 +45,32 @@ namespace ServerPart.Logic.Managers
 
         public void InsertOrder(Order order)
         {
+            var userWallet = WalletContext.Get(order.OrderUserId);
+            userWallet.MoneySum -= order.AllCost;
+            WalletContext.Update(userWallet);
             OrderContext.Insert(order);
+            order.Account = UserContext.Get(order.OrderUserId);
+            order.Parking = ParkingContext.Get(order.OrderParkingId);
+            MailManager.SendOrderToMail(order.Account.Email, order);
+            
+
         }
 
         public void UpdateOrder(Order order)
         {
             OrderContext.Update(order);
+            MailManager.SendOrderToMail(order.Account.Email, order);
         }
 
         public void DeleteOrder(int orderId)
         {
+            var order = OrderContext.Get(orderId);
+            var user = UserContext.Get(order.OrderUserId);
+            var parking = ParkingContext.Get(order.OrderParkingId);
+            order.Account = user;
+            order.Parking = parking;
             OrderContext.Delete(orderId);
+            MailManager.SendDeleteOrderToMail(user.Email, order);
         }
 
         public Order GetOrder(int orderId)

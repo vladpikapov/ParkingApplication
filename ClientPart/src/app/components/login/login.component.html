@@ -1,10 +1,10 @@
 <div class="container-fluid">
   <div class="row mt-5">
-    <div class="card mx-auto  my-auto">
-      <img src="assets/icons/loginIcon.png" class="mt-2 card-img-top mx-auto" style="width: 100px; height: 100px"/>
-      <div class="card-body ">
+    <div class="card mx-auto  my-auto" style="background: none">
+<!--      <img src="assets/icons/loginIcon.png" class="mt-2 card-img-top mx-auto" style="width: 100px; height: 100px"/>-->
+      <div class="card-body">
         <dx-form [(formData)]="formData" labelLocation="top">
-          <dxi-item dataField="mail">
+          <dxi-item dataField="login">
             <dxi-validation-rule type="required"></dxi-validation-rule>
           </dxi-item>
           <dxi-item dataField="password" [editorOptions]="{type:'dxTextBox', mode:'password'}">

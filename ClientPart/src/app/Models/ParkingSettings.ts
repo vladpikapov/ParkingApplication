@@ -1,7 +1,7 @@
 export class ParkingSettings {
-  ParkingId: number;
-  ForThePeopleWithDisabilities: number;
-  AllTimeService: number;
-  CCTV: number;
-  LeaveTheCarKeys: number;
+  parkingId: number;
+  forPeopleWithDisabilities: number;
+  allTimeService: number;
+  cctv: number;
+  leaveTheCarKeys: number;
 }

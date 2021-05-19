@@ -1,6 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {ParkingService} from "../../services/parking.service";
-import {ParkingRating} from "../../Models/ParkingRating";
+import {Component, OnInit, Output} from '@angular/core';
+import {ParkingService} from '../../services/parking.service';
+import {ParkingRating} from '../../Models/ParkingRating';
+import {Parking} from '../../Models/Parking';
+import {AuthService} from '../../services/auth.service';
+import {SharedService} from '../../services/shared.service';
 
 @Component({
   selector: 'app-parking-list',
@@ -8,28 +11,36 @@ import {ParkingRating} from "../../Models/ParkingRating";
   styleUrls: ['./parking-list.component.scss']
 })
 export class ParkingListComponent implements OnInit {
-  dataSource: any[];
+
+  dataSource: Parking[];
   visiblePopup = false;
   parkingRatings = [1, 2, 3, 4, 5];
   formData: any;
+  selectParking: any;
+  orderPopup = false;
 
-  constructor(private op: ParkingService) {
-  }
-
-  ngOnInit(): void {
+  constructor(private op: ParkingService, public as: AuthService, private sharedService: SharedService) {
     this.op.getParking().subscribe(res => {
       this.dataSource = res;
     });
+
+    sharedService.parkingUpdate.subscribe(_ => {
+      this.op.getParking().subscribe(res => {
+        this.dataSource = res;
+      });
+    });
   }
 
-  setRating(rating: any) {
-    console.log(rating.data);
-    this.formData = rating.data;
+  ngOnInit(): void {
+
+  }
+
+  setRating(rating: any): void {
+    this.formData = rating;
     this.visiblePopup = !this.visiblePopup;
   }
 
-  saveRating(e) {
-    console.log(e);
+  saveRating(e): void {
     let rating = new ParkingRating();
     rating.ParkingId = this.formData.id;
     rating.UserRating = e;
@@ -39,5 +50,18 @@ export class ParkingListComponent implements OnInit {
       });
     });
     this.visiblePopup = !this.visiblePopup;
+  }
+
+  makeOrder(item: any): void {
+    this.orderPopup = !this.orderPopup;
+    this.selectParking = item;
+  }
+
+  showPopup(e) {
+    console.log(e);
+  }
+
+  orderComplete(): void {
+      this.orderPopup = !this.orderPopup;
   }
 }

@@ -57,14 +57,14 @@ namespace ServerPart.Data.Context
             return parking;
         }
 
-        public IEnumerable<Parking> GetAll()
+        public List<Parking> GetAll()
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            IEnumerable<Parking> parkings = null;
+            List<Parking> parkings = new List<Parking>();
             try
             {
                 connection.Open();
-                parkings = connection.Query<Parking>(QueryManager.GetQueryForSelect("[dbo].PARKING"));
+                parkings.AddRange(connection.Query<Parking>(QueryManager.GetQueryForSelect("[dbo].PARKING")));
             }
             finally
             {
@@ -79,8 +79,8 @@ namespace ServerPart.Data.Context
             try
             {
                 connection.Open();
-                string query = $"INSERT INTO [dbo].PARKING values ('{item.Address}', {item.Latitude}, {item.Longitude}, {item.Capacity}, {item.CostPerHour}, '{item.City}')";
-                connection.Query<Order>(query);
+                string query = $"INSERT INTO [dbo].PARKING([Address],[Latitude],[Longitude],[Capacity],[CostPerHour]) values ('{item.Address}', '{item.Latitude}', '{item.Longitude}', {item.Capacity}, {item.CostPerHour.ToString().Replace(',', '.')})";
+                connection.Query(query);
             }
             finally
             {
@@ -93,7 +93,7 @@ namespace ServerPart.Data.Context
             var connection = new SqlConnection(connectionString);
             try
             {
-                var query = $"UPDATE [dbo].PARKING set [ADDRESS] = '{item.Address}', LATITUDE = {item.Latitude}, LONGITUDE = {item.Longitude}, CAPACITY = {item.Capacity}, COST_PER_HOUR = {item.CostPerHour} WHERE [ID] = {item.Id}";
+                var query = $"UPDATE [dbo].PARKING set [ADDRESS] = '{item.Address}', LATITUDE = '{item.Latitude}', LONGITUDE = '{item.Longitude}', CAPACITY = {item.Capacity}, CostPerHour = {item.CostPerHour.ToString().Replace(',', '.')} WHERE [ID] = {item.Id}";
                 connection.Open();
                 connection.Query(query);
             }

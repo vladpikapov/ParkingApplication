@@ -32,5 +32,11 @@ namespace ServerPart.Controllers.Administator
         {
             return m_AccountManager.GetUser(userId);
         }
+
+        [HttpGet("[action]")]
+        public void DeleteUser([FromRoute] int userId)
+        {
+            m_AccountManager.DeleteUser(userId);
+        }
     }
 }

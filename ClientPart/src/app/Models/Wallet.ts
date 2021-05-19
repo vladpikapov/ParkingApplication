@@ -1,4 +1,4 @@
 export class Wallet {
-  Id: number;
-  MoneySum: number;
+  id: number;
+  moneySum: number;
 }

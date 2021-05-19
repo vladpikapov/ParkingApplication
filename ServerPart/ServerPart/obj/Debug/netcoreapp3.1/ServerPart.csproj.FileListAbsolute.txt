@@ -40,11 +40,14 @@ D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\net
 D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
 D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\netcoreapp3.1\ServerPart.Logic.dll
 D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\netcoreapp3.1\ServerPart.Logic.pdb
-D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\obj\Debug\netcoreapp3.1\ServerPart.csproj.CoreCompileInputs.cache
-D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\obj\Debug\netcoreapp3.1\ServerPart.MvcApplicationPartsAssemblyInfo.cache
 D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\netcoreapp3.1\publish\web.config
 D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\netcoreapp3.1\publish\appsettings.Development.json
 D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\netcoreapp3.1\publish\appsettings.json
 D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\netcoreapp3.1\publish\ServerPart.deps.json
 D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\netcoreapp3.1\publish\ServerPart.runtimeconfig.json
 D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\obj\Debug\netcoreapp3.1\ServerPart.csproj.CoreCompileInputs.cache
+D:\Vlad`s projects\Diplom\ParkingApplication\ServerPart\ServerPart\obj\Debug\netcoreapp3.1\ServerPart.MvcApplicationPartsAssemblyInfo.cache

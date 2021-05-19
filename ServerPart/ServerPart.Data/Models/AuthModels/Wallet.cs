@@ -8,6 +8,6 @@ namespace ServerPart.Data.Models.AuthModels
     {
         public int Id { get; set; }
 
-        public string MoneySum { get; set; }
+        public double MoneySum { get; set; }
     }
 }

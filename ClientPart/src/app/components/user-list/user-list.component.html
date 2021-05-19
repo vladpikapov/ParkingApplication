@@ -1,0 +1,16 @@
+<div class="container-fluid">
+<dx-data-grid [(dataSource)]="dataSource" height="400" [showBorders]="true">
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-scrolling mode="infinite"></dxo-scrolling>
+  <dxi-column dataField="login"></dxi-column>
+  <dxi-column dataField="carNumber"></dxi-column>
+  <dxi-column dataField="email"></dxi-column>
+  <dxi-column dataField="createDate"></dxi-column>
+  <dxi-column dataField="lastLogin" ></dxi-column>
+  <dxi-column [width]="100" cellTemplate="deleteButtonTemplate" alignment="center"></dxi-column>
+  <div *dxTemplate="let data of 'deleteButtonTemplate'">
+    <dx-button (onClick)="deleteUser(data)" icon="trash" [disabled]="checkUserData(data)"></dx-button>
+  </div>
+</dx-data-grid>
+</div>
+<dx-popup></dx-popup>

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "vd2Cql36DkrX+Q+xbJ8nUMwOz4psdEd5szZ9qAD7OJrMQh4Ux2RFhQ21UhMFS5/isJi2KKO3TLwn7LLgsKjEag==",
+  "dgSpecHash": "zhFeEVd0L/siRtfxOx/JrY6Owf6jhroMdqqA2qk1XpEa4iHXpKXjKTuKw9aR+f8gOp0dXmdDYeEoTB/O4+YeHA==",
   "success": true,
   "projectFilePath": "D:\\Vlad`s projects\\Diplom\\ParkingApplication\\ServerPart\\ServerPart.Data\\ServerPart.Data.csproj",
   "expectedPackageFiles": [
@@ -12,6 +12,7 @@
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.8.0\\microsoft.identitymodel.tokens.6.8.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.7.0\\runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",

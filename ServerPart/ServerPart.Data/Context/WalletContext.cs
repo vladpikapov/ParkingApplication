@@ -1,7 +1,10 @@
-﻿using ServerPart.Data.Interfaces;
+﻿using Dapper;
+using Microsoft.Extensions.Configuration;
+using ServerPart.Data.Interfaces;
 using ServerPart.Data.Models.AuthModels;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace ServerPart.Data.Context
@@ -9,6 +12,12 @@ namespace ServerPart.Data.Context
     public class WalletContext : IMainContext<Wallet>
     {
 
+        public string connectionString;
+
+        public WalletContext(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
 
 
         public void Delete(int itemId)
@@ -23,22 +32,66 @@ namespace ServerPart.Data.Context
 
         public Wallet Get(int id)
         {
-            throw new NotImplementedException();
+            var query = $"SELECT * FROM WALLETS where ID = {id}";
+            var connection = new SqlConnection(connectionString);
+
+            try
+            {
+                connection.Open();
+                var wallet = connection.QueryFirstOrDefault<Wallet>(query);
+                return wallet;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            
         }
 
-        public IEnumerable<Wallet> GetAll()
+        public List<Wallet> GetAll()
         {
-            throw new NotImplementedException();
+            var query = $"select * from WALLETS";
+            var connection = new SqlConnection(connectionString);
+            try
+            {
+                connection.Open();
+                var res = connection.Query<Wallet>(query).AsList();
+                return res;
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
 
         public void Insert(Wallet item)
         {
-            throw new NotImplementedException();
+            var query = $"INSERT INTO WALLETS values (0.0)";
+            var connection = new SqlConnection(connectionString);
+            try
+            {
+                connection.Open();
+                connection.Query(query);
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
 
         public void Update(Wallet item)
         {
-            throw new NotImplementedException();
+            var query = $"UPDATE WALLETS set MoneySum = {item.MoneySum.ToString().Replace(',','.')} WHERE Id = {item.Id}";
+            var connection = new SqlConnection(connectionString);
+            try
+            {
+                connection.Open();
+                connection.Query(query);
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
 }

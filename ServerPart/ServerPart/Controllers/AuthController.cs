@@ -22,26 +22,29 @@ namespace ServerPart.Controllers
     public class AuthController : ControllerBase
     {
         private AuthManager AuthManager;
+        private AccountManager AccountManager;
 
-        public AuthController(AuthManager authManager) 
+        public AuthController(AuthManager authManager, AccountManager accountManager) 
         {
             AuthManager = authManager;
+            AccountManager = accountManager;
 
         }
 
         [HttpPost]
         [Route("[action]")]
-        public IActionResult Login([FromBody] Login model)
+        public IActionResult Login([FromBody] LoginModel model)
         {
-            var user = AuthManager.AuthenticateUser(model.Email, model.Password);
+            var user = AuthManager.AuthenticateUser(model.Login, model.Password);
 
             if (user != null)
             {
                 var token = AuthManager.GenerateJWT(user);
-
+                AccountManager.UpdateUserData(user, 5);
                 return Ok(new
                 {
-                    access_token = token
+                    access_token = token,
+                    confirm_email = user.ConfirmEmail
                 });
 
             }
@@ -50,12 +53,15 @@ namespace ServerPart.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public bool Registration([FromBody] Login model)
+        public bool Registration([FromBody] LoginModel model)
         {
-            return AuthManager.RegistrationUser(model.Email, model.Password);
+            return AuthManager.RegistrationUser(model);
         }
 
       
+      
+
+        
 
         
     }

@@ -27,10 +27,12 @@ namespace ServerPart.Logic.Managers
         public IEnumerable<Parking> GetParkings()
         {
             var allParkings = ParkingContext.GetAll();
+            var allOrders = OrderContext.GetAll().ToList();
             allParkings.ToList().ForEach(x =>
             {
                 x.ParkingRaiting = GetParkingRaiting(x.Id);
                 x.ParkingSettings = psContext.Get(x.Id);
+                x.FreePlaces = GetParkingFreePlaces(x, allOrders);
             });
             return allParkings;
         }
@@ -46,7 +48,7 @@ namespace ServerPart.Logic.Managers
             return 0;
         }
 
-        public void SetParkingRaiting(ParkingRaiting raiting)
+        public void SetParkingRaiting(ParkingRating raiting)
         {
             var checkOrder = prContext.GetAll().FirstOrDefault(x => x.UserId == raiting.UserId && x.ParkingId == raiting.ParkingId);
             if(checkOrder != null)
@@ -57,6 +59,12 @@ namespace ServerPart.Logic.Managers
             {
                 prContext.Insert(raiting);
             }
+        }
+
+        public int GetParkingFreePlaces(Parking parking, List<Order> orders)
+        {
+            var actualOrders = orders.Where(x => x.OrderParkingId == parking.Id && x.OrderEndDate >= DateTime.Now);
+            return parking.Capacity - actualOrders.Count();
         }
 
         public IEnumerable<Parking> GetUserHistoryParking(int userId)

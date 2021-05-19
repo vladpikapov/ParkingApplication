@@ -1,12 +1,18 @@
 import {Wallet} from './Wallet';
 
 export class Account {
-  Id: number;
-  Email: string;
-  Password: string;
-  Role: any;
-  WalletId: number;
-  Wallet: Wallet;
+  id: number;
+  login: string;
+  carNumber: string;
+  email: string;
+  password: string;
+  role: any;
+  roleId: any;
+  confirmEmail: number;
+  walletId: number;
+  wallet: Wallet = new Wallet();
+  createDate: Date;
+  lastLogin: Date;
 }
 
 export enum RoleEnum {

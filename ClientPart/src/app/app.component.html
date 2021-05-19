@@ -1,23 +1,132 @@
-<div class="navbar navbar-dark bg-dark">
-  <div class="container-fluid">
-    <div class="row">
-      <a *ngIf="isLoggedIn" class="nav nav-item nav-link text-white" [routerLink]="['']" routerLinkActive='active'
-         [routerLinkActiveOptions]="{exact: true}">Parking application</a>
-      <a *ngIf="isLoggedIn" class="nav nav-item nav-link text-white" [routerLink]="['/parking']">All parking</a>
-      <a *ngIf="isLoggedIn" class="nav nav-item nav-link text-white" [routerLink]="['/history']">Orders history</a>
-      <button *ngIf="isLoggedIn" class="btn btn-outline-light mr-2" style="margin-left: 1250px" [routerLink]="['/login']"
-              (click)="logout()">Logout
-      </button>
+<nav class="nav" [ngClass]="{'affix': navIsFixed}">
+  <div class="container">
+    <div class="logo">
+      <a [routerLink]="['']">Minsk parking</a>
+    </div>
+    <div id="mainListDiv" class="main_list">
+      <ul>
+        <li *ngIf="isLoggedIn"><a (click)="scroll(parks)">Parking</a></li>
+        <li *ngIf="isLoggedIn && getRole() === 'Admin'"><a (click)="openAdminSettings()">Admin settings</a></li>
+        <li *ngIf="isLoggedIn"><a (click)="scroll(orders)">Orders</a></li>
+        <li *ngIf="!isLoggedIn"><a (click)="setLogin(parks)">Login</a></li>
+        <li *ngIf="!isLoggedIn"><a (click)="setRegistration(parks)">Registration</a></li>
+        <li *ngIf="isLoggedIn"><a>{{getName()}}</a>
+          <ul class="dropdown" [ngClass]="{'affix': navIsFixed}">
+            <li [ngClass]="{'affix': navIsFixed}" *ngIf="getRole() !== 'Admin'"><a (click)="openUserWalletPopup()">Wallet</a>
+            </li>
+            <li [ngClass]="{'affix': navIsFixed}"><a (click)="openUserSettingsPopup()">Setting</a></li>
+            <li [ngClass]="{'affix': navIsFixed}"><a (click)="logout()">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
+<section class="home">
+</section>
+
+
+<div #parks class="mb-5">
+  <div *ngIf="!isLoggedIn">
+    <div #log>
+      <div *ngIf="isLogin">
+        <app-login (checkCode)="checkCode($event)"></app-login>
+      </div>
     </div>
-    <div class="row" *ngIf="isLoggedIn">
-      <a *ngIf="isLoggedIn" style="color:white">{{getName()}}</a>
+    <div #reg>
+      <div *ngIf="!isLogin">
+        <app-registration (checkMailCode)="checkCode($event)"></app-registration>
+      </div>
     </div>
-    <div class="row" *ngIf="!isLoggedIn">
-      <button class="btn btn-outline-light" [routerLink]="['/login']">Login</button>
-      <button class="btn btn-outline-light ml-4 mr-2" [routerLink]="['/registration']">Registration
-      </button>
+  </div>
+  <div *ngIf="isLoggedIn">
+    <div>
+      <app-parking-list></app-parking-list>
     </div>
   </div>
 </div>
-<router-outlet></router-outlet>
+
+<section class="home" style="background-image: url('../assets/background.2jpg.jpg')">
+</section>
+<div #orders class="mb-5">
+  <div class="row col-12 justify-content-center mt-3">
+  <dx-select-box [width]="500" *ngIf="isLoggedIn && getRole() == 'Admin'" [dataSource]="dataSource"
+                 (selectedItemChange)="selectUser($event)" displayExpr="login"></dx-select-box>
+  </div>
+  <app-order-history-list [userId]="this.selectedUser" *ngIf="isLoggedIn"></app-order-history-list>
+</div>
+
+
+<dx-popup [(visible)]="adminSettingsPopup" (onHiding)="closeAdminPopup()">
+  <div class="warpper">
+    <input class="radio" id="one" name="group" type="radio" checked>
+    <input class="radio" id="two" name="group" type="radio">
+    <div class="tabs">
+      <label class="tab" id="one-tab" for="one">Parking</label>
+      <label class="tab" id="two-tab" for="two">Users</label>
+    </div>
+    <div class="panels">
+      <div class="panel" id="one-panel">
+        <app-parking-form></app-parking-form>
+      </div>
+      <div class="panel" id="two-panel">
+        <app-user-list></app-user-list>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+<dx-popup [(visible)]="userSettingsPopup" [width]="300" [height]="500">
+  <app-user-settings></app-user-settings>
+</dx-popup>
+<dx-popup [(visible)]="userBalancePopup" [width]="1000">
+  <app-user-balance></app-user-balance>
+</dx-popup>
+<dx-popup [(visible)]="checkMailPopup" [height]="280" [width]="600">
+  <app-check-email (closePopup)="closePopupMail()"></app-check-email>
+</dx-popup>
+
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="footer-widget">
+          <h3>Stay in touch</h3>
+          <div class="footer-widget-content">
+            <a href="mailto:sales@example.com" class="contact-link">sales@example.com</a>
+            <a href="mailto:support@example.com" class="contact-link red"> support@example.com </a>
+            <a href="tel:0121234" class="contact-link">(123) 456-789</a>
+            <div class="footer-social">
+              <ul>
+                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                <li><a href="#"><i class="fa fa-rss"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="footer-widget">
+          <h3>Latest Events</h3>
+          <div class="footer-widget-content">
+            <div class="media">
+              <div class="media-body">
+                <p><a href="#">First notification </a></p>
+                <span>May 10, 2021 </span>
+              </div>
+            </div>
+            <div class="media">
+              <div class="media-body">
+                <p><a href="#">Second notification </a></p>
+                <span>May 12, 2021 </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

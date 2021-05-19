@@ -26,8 +26,9 @@ namespace ServerPart.Data.Context
                 SqlConnection connection = new SqlConnection(connectionString);
                 try
                 {
+                    var query = $"DELETE FROM [dbo].[ORDERS] WHERE OrderId = {itemId}";
                     connection.Open();
-                    connection.Query<Order>(QueryManager.GetQueryForDelete("[dbo].ORDERS", itemId));
+                    connection.Query<Order>(query);
                 }
                 finally
                 {
@@ -48,8 +49,9 @@ namespace ServerPart.Data.Context
             Order order = null;
             try
             {
+                var query = $"SELECT * FROM ORDERS WHERE OrderId = {id}";
                 connection.Open();
-                order = connection.QueryFirstOrDefault<Order>(QueryManager.GetQueryForSelect("[dbo].ORDERS", id));
+                order = connection.QueryFirstOrDefault<Order>(query);
             }
             finally
             {
@@ -58,14 +60,14 @@ namespace ServerPart.Data.Context
             return order;
         }
 
-        public IEnumerable<Order> GetAll()
+        public List<Order> GetAll()
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            IEnumerable<Order> orders = null;
+            List<Order> orders = new List<Order>();
             try
             {
                 connection.Open();
-                orders = connection.Query<Order>(QueryManager.GetQueryForSelect("[dbo].ORDERS"));
+                orders.AddRange(connection.Query<Order>(QueryManager.GetQueryForSelect("[dbo].ORDERS")));
             }
             finally
             {
@@ -80,8 +82,8 @@ namespace ServerPart.Data.Context
             try
             {
                 connection.Open();
-                string query = $"INSERT INTO [dbo].ORDERS values ('{item.OrderStartDate:yyyy-MM-dd HH:mm:ss}', '{item.OrderEndDate:yyyy-MM-dd HH:mm:ss}', {item.OrderUserId}, {item.OrderParkingId})";
-                connection.Query<Order>(query);
+                string query = $"INSERT INTO [dbo].ORDERS(OrderStartDate, OrderEndDate, OrderUserId, OrderParkingId) values ('{item.OrderStartDate}', '{item.OrderEndDate}', {item.OrderUserId}, {item.OrderParkingId})";
+                connection.Query(query);
             }
             finally
             {
@@ -95,7 +97,7 @@ namespace ServerPart.Data.Context
             try
             {
                 connection.Open();
-                string query = $"UPDATE [dbo].ORDERS set ORDERSTARTDATE = '{item.OrderStartDate:yyyy-MM-dd HH:mm:ss}', ORDERENDDATE = '{item.OrderEndDate:yyyy-MM-dd HH:mm:ss}', ORDERPARKINGID = {item.OrderParkingId} where ID = {item.Id}";
+                string query = $"UPDATE [dbo].ORDERS set OrderStartDate = '{item.OrderStartDate}', OrderEndDate = '{item.OrderEndDate}', OrderParkingId = {item.OrderParkingId} where OrderId = {item.OrderId}";
                 connection.Query<Order>(query);
             }
             finally

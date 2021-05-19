@@ -1,1 +1,15 @@
-<div class="map-container" id="map"></div>
+<div class="container-fluid pl-0 pr-0">
+  <div id="map"
+       leaflet
+       [ngStyle]="{'height': isUser ? '700px': '400px'}"
+       (leafletMapReady)="initializeMap($event)"
+       [leafletOptions]="options"
+       (leafletClick)="onMapClick($event)">
+    <div class="leaflet-bottom leaflet-left" *ngIf="!isUser">
+      <app-geocoding (onSearch)="refreshSearchList($event)"></app-geocoding>
+    </div>
+  </div>
+  <div id="details-panel" class="row mt-2" *ngIf="!isUser">
+    <app-results-list [results]="results" class="col-7" (locationSelected)="getAddress($event)"></app-results-list>
+  </div>
+</div>

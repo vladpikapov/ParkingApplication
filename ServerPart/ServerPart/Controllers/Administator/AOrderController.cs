@@ -22,6 +22,12 @@ namespace ServerPart.Controllers.Administator
             m_OrderManager = orderManager;
         }
 
+        [HttpGet("[action]")]
+        public IEnumerable<Order> GetOrders()
+        {
+            return m_OrderManager.GetAllOrders();
+        }
+
         [HttpGet("[action]/{userId}")]
         public IEnumerable<Order> GetUserOrders([FromRoute] int userId)
         {

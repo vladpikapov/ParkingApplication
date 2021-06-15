@@ -53,7 +53,7 @@ export class ParkingFormComponent implements OnInit {
   }
 
   editParking(elem: any): void {
-    this.isEdit = !this.isEdit;
+    this.isEdit = true;
     this.formData = elem.data;
     this.popupVisible = !this.popupVisible;
     this.sharedService.parkingEdit.emit(elem.data);
@@ -104,6 +104,7 @@ export class ParkingFormComponent implements OnInit {
 
   closePopup(parkingForm: DxFormComponent): void {
     // parkingForm.instance.resetValues();
+    this.isEdit = false;
     this.formData = new Parking();
   }
 

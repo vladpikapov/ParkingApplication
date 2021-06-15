@@ -2,11 +2,19 @@
   <div class="row mt-5">
     <dx-data-grid class="w-75 mx-auto" [showBorders]="true" [dataSource]="dataSource">
       <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-export [enabled]="this.userInfo != null && this.userInfo.role == 'Admin'"></dxo-export>
+      <dxo-grouping
+        [contextMenuEnabled]="true">
+      </dxo-grouping>
+      <dxo-group-panel
+        [visible]="true"> <!-- or "auto" -->
+      </dxo-group-panel>
       <dxi-column dataField="orderStartDate" dataType="datetime" alignment="center"
                   caption="Начало аренды"></dxi-column>
       <dxi-column dataField="orderEndDate" dataType="datetime" alignment="center"
                   caption="Окончание аренды"></dxi-column>
       <dxi-column dataField="parking.address" caption="Адрес" dataType="text" alignment="center"></dxi-column>
+      <dxi-column dataField="account.login" caption="User" *ngIf="this.userInfo != null && this.userInfo.role == 'Admin'"></dxi-column>
       <dxi-column [width]="100" cellTemplate="editButtonTemplate" alignment="center"></dxi-column>
       <dxi-column [width]="100" cellTemplate="deleteButtonTemplate" alignment="center"></dxi-column>
       <div *dxTemplate="let eB of 'editButtonTemplate'">

@@ -22,6 +22,7 @@ export class OsmViewComponent implements OnInit {
   mapPoint: MapPoint;
   options: MapOptions;
   lastLayer: any;
+  layers = [];
 
   @Output()
   mapPointChange = new EventEmitter<any>();
@@ -42,13 +43,24 @@ export class OsmViewComponent implements OnInit {
       this.createParkingMarker(res);
     });
     sharedService.parkingNew.subscribe(_ => {
-      this.clearMap();
+      this.layers.forEach(x => {
+        this.map.removeLayer(x);
+      });
     });
   }
 
   ngOnInit(): void {
     this.initializeDefaultMapPoint();
     this.initializeMapOptions();
+  }
+
+  private initializeMapOptions(): void {
+    this.options = {
+      zoom: 12,
+      layers: [
+        tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'OSM'})
+      ]
+    };
   }
 
   initializeMap(map: Map): void {
@@ -82,14 +94,6 @@ export class OsmViewComponent implements OnInit {
     }
   }
 
-  private initializeMapOptions(): void {
-    this.options = {
-      zoom: 12,
-      layers: [
-        tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'OSM'})
-      ]
-    };
-  }
 
   private initializeDefaultMapPoint(): void {
     this.mapPoint = {
@@ -114,6 +118,8 @@ export class OsmViewComponent implements OnInit {
     const mapIcon = this.getDefaultIcon();
     const coordinates = latLng([Number.parseFloat(parking.latitude), Number.parseFloat(parking.longitude)]);
     this.lastLayer = marker(coordinates).bindPopup(parking.address).setIcon(mapIcon).addTo(this.map);
+    this.layers.push(this.lastLayer);
+
     // this.map.setView(coordinates, this.map.getZoom());
   }
 
@@ -122,6 +128,7 @@ export class OsmViewComponent implements OnInit {
     const mapIcon = this.getDefaultIcon();
     const coordinates = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
     this.lastLayer = marker(coordinates).bindPopup('').setIcon(mapIcon).addTo(this.map);
+    this.layers.push(this.lastLayer);
     this.map.setView(coordinates, this.map.getZoom());
   }
 
@@ -134,8 +141,11 @@ export class OsmViewComponent implements OnInit {
   }
 
   private clearMap(): void {
-    if (this.map.hasLayer(this.lastLayer)) {
+    if (this.lastLayer) {
       this.map.removeLayer(this.lastLayer);
+      this.layers.forEach(x => {
+        this.map.removeLayer(x);
+      })
     }
   }
 }

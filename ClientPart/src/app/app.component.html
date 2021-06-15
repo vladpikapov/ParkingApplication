@@ -50,11 +50,7 @@
 <section class="home" style="background-image: url('../assets/background.2jpg.jpg')">
 </section>
 <div #orders class="mb-5">
-  <div class="row col-12 justify-content-center mt-3">
-  <dx-select-box [width]="500" *ngIf="isLoggedIn && getRole() == 'Admin'" [dataSource]="dataSource"
-                 (selectedItemChange)="selectUser($event)" displayExpr="login"></dx-select-box>
-  </div>
-  <app-order-history-list [userId]="this.selectedUser" *ngIf="isLoggedIn"></app-order-history-list>
+  <app-order-history-list *ngIf="isLoggedIn"></app-order-history-list>
 </div>
 
 
@@ -76,7 +72,7 @@
     </div>
   </div>
 </dx-popup>
-<dx-popup [(visible)]="userSettingsPopup" [width]="300" [height]="500">
+<dx-popup [(visible)]="userSettingsPopup" [width]="400" [height]="700">
   <app-user-settings></app-user-settings>
 </dx-popup>
 <dx-popup [(visible)]="userBalancePopup" [width]="1000">

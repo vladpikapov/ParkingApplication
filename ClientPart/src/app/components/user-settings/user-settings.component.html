@@ -11,13 +11,14 @@
     <h3>Password</h3>
     <dx-button (onClick)="openPasswordPopup()">Change password</dx-button>
   </div>
-<!--  <div>-->
-<!--    <h3>Mail</h3>-->
-<!--    <div class="row col-12">-->
-<!--      <div>{{this.userInfo?.email}}</div>-->
-<!--      <dx-button icon="edit" (onClick)="openMailPopup()"></dx-button>-->
-<!--    </div>-->
-<!--  </div>-->
+  <hr>
+  <div>
+    <h3>Mail</h3>
+    <div class="row col-12">
+      <div style="font-size: 22px; line-height: 1.7">{{this.userInfo?.email}}</div>
+      <dx-button icon="edit" (onClick)="openMailPopup()"></dx-button>
+    </div>
+  </div>
   <hr>
   <div>
     <h3>Car number</h3>
@@ -27,13 +28,15 @@
     </div>
   </div>
 </div>
-<dx-popup [(visible)]="loginPopup" title="Change login" [width]="200" [height]="250">
+<dx-popup [(visible)]="loginPopup" title="Change login" [width]="300" [height]="250">
   <dx-form [(formData)]="loginForm" #logForm>
     <dxi-item dataField="login" [editorOptions]="{type: 'dxTextBox'}">
       <dxi-validation-rule type="required"></dxi-validation-rule>
     </dxi-item>
   </dx-form>
+  <div class="row col-12">
   <button class="btn btn-outline-dark" (click)="onSave(logForm)">Save</button>
+  </div>
 </dx-popup>
 
 
@@ -55,19 +58,19 @@
     (onClick)="updatePassword(formPassword)">
   </dx-button>
 </dx-popup>
-<!--<dx-popup [(visible)]="mailPopup" title="Change mail">-->
-<!--  <div class="row" [ngStyle]="{'visibility': codeSend ? 'visible': 'collapse'}">-->
-<!--    <dx-form [(formData)]="mailForm" #mailFo>-->
-<!--      <dxi-item dataField="mail" [editorOptions]="{type: 'dxTextBox', mode: 'email'}">-->
-<!--        <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>-->
-<!--      </dxi-item>-->
-<!--    </dx-form>-->
-<!--    <button class="btn btn-outline-info" (click)="sendMailCode(mailFo)" >Send code</button>-->
-<!--  </div>-->
-<!--  <div class="row" [ngStyle]="{'visibility': codeSend ? 'visible': 'collapse'}">-->
-<!--   <app-check-email [isSettings]="true" [account]="userInfo" [popupVisible]="mailPopup"></app-check-email>-->
-<!--  </div>-->
-<!--</dx-popup>-->
+<dx-popup [(visible)]="mailPopup" title="Change mail" height="250" width="200">
+  <div class="row" [ngStyle]="{'visibility': !codeSend ? 'visible': 'collapse'}">
+    <dx-form [(formData)]="mailForm" #mailFo>
+      <dxi-item dataField="mail" [editorOptions]="{type: 'dxTextBox', mode: 'email'}">
+        <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+      </dxi-item>
+    </dx-form>
+    <button class="btn btn-outline-dark" (click)="sendMailCode(mailFo)">Send code</button>
+  </div>
+  <div class="row" [ngStyle]="{'visibility': codeSend ? 'visible': 'collapse'}">
+    <app-check-email [isSettings]="true" [account]="userInfo" [popupVisible]="mailPopup"></app-check-email>
+  </div>
+</dx-popup>
 <dx-popup [(visible)]="carNumberPopup" title="Change car number" height="250" width="200">
   <dx-form [(formData)]="carNumberForm" #carNumber>
     <dxi-item dataField="carNumber" [editorOptions]="{type: 'dxTextBox'}">

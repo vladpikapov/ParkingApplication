@@ -9,6 +9,7 @@ import {UserService} from '../../services/user.service';
 import {AuthService} from '../../services/auth.service';
 import {Wallet} from '../../Models/Wallet';
 import {SharedService} from "../../services/shared.service";
+import notify from "devextreme/ui/notify";
 
 @Component({
   selector: 'app-order-form',
@@ -63,8 +64,8 @@ export class OrderFormComponent implements OnInit {
 
   constructor(private ps: ParkingService, private os: OrderService, private router: Router,
               private us: UserService, public as: AuthService, private sharedService: SharedService) {
-      this.us.getAllUsers().toPromise().then(res => {
-        this.dataSelectBox = res.filter(x => x.roleId < 2);
+    this.us.getAllUsers().toPromise().then(res => {
+      this.dataSelectBox = res.filter(x => x.roleId < 2);
     });
   }
 
@@ -104,7 +105,7 @@ export class OrderFormComponent implements OnInit {
         this.infoData.parkingId.freePlaces = this.selectedParking.freePlaces;
         this.visiblePopup = !this.visiblePopup;
       } else {
-        alert('Incorrect dates!');
+        notify('Incorrect dates!', 'error');
       }
     }
   }
@@ -119,17 +120,21 @@ export class OrderFormComponent implements OnInit {
     if (this.formData.userId) {
       this.us.getUserWallet(this.formData.userId.id).toPromise().then(res => {
         userWallet = res;
+        if ((this.allCost <= userWallet.moneySum && this.formData.userId) || this.as.currentUser.wallet.moneySum >= this.allCost) {
+          if (this.formData.userId) {
+            order.orderUserId = Number.parseFloat(this.formData.userId.id);
+            this.os.postOrderByAdmin(order).subscribe(_ => {
+              this.sharedService.cartData.emit();
+              this.orderComplete.emit();
+              this.visiblePopup = !this.visiblePopup;
+            });
+          }
+        } else {
+          notify('Insufficient funds', 'error');
+        }
       });
-    }
-    if ((this.allCost <= userWallet.moneySum && this.formData.userId) || this.as.currentUser.wallet.moneySum >= this.allCost) {
-      if (this.formData.userId) {
-        order.orderUserId = Number.parseFloat(this.formData.userId.id);
-        this.os.postOrderByAdmin(order).subscribe(_ => {
-          this.sharedService.cartData.emit();
-          this.orderComplete.emit();
-          this.visiblePopup = !this.visiblePopup;
-        });
-      } else {
+    } else {
+      if (this.as.currentUser.wallet.moneySum >= this.allCost) {
         this.os.postOrder(order).subscribe(_ => {
           this.us.getUserWallet(this.as.currentUser.id).toPromise().then(res => {
             this.as.currentUser.wallet = res;
@@ -138,9 +143,9 @@ export class OrderFormComponent implements OnInit {
             this.orderComplete.emit();
           });
         });
+      } else {
+        notify('Insufficient funds', 'error');
       }
-    } else {
-      alert('Insufficient funds');
     }
   }
 }

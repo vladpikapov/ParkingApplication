@@ -11,7 +11,7 @@ namespace ServerPart.Controllers.Administator
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class AUserController: ControllerBase
     {
         private readonly AccountManager m_AccountManager;

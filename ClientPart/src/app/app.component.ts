@@ -92,8 +92,8 @@ export class AppComponent implements OnInit {
   }
 
   selectUser(event: any): void {
-    this.selectedUser = event.id;
-    this.sharedService.cartData.emit(event.id);
+    // this.selectedUser = event.id;
+    // this.sharedService.cartData.emit(event.id);
   }
 
   openUserSettingsPopup(): void {
@@ -105,9 +105,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.us.getAllUsers().subscribe(res => {
-      this.dataSource = res.filter(x => x.roleId < 2);
-    });
+    // this.us.getAllUsers().subscribe(res => {
+    //   this.dataSource = res.filter(x => x.roleId < 2);
+      this.sharedService.cartData.emit(true);
+    // });
   }
 
   closeAdminPopup(): void {

@@ -26,7 +26,23 @@ namespace ServerPart.Logic.Managers
 
         public IEnumerable<Order> GetAllOrders()
         {
-            return OrderContext.GetAll();
+            var userList = UserContext.GetAll();
+            var parkingList = ParkingContext.GetAll();
+            var orders = OrderContext.GetAll();
+            foreach(var order in orders)
+            {
+                var user = userList.FirstOrDefault(x => x.Id == order.OrderUserId);
+                if(user != null)
+                {
+                    order.Account = user;
+                }
+                var parking = parkingList.FirstOrDefault(x => x.Id == order.OrderParkingId);
+                if(parking != null)
+                {
+                    order.Parking = parking;
+                }
+            }
+            return orders;
         }
 
         public IEnumerable<Order> GetUserHistoryOrders(int userId)

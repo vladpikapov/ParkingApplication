@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {AuthService} from '../../services/auth.service';
 import {SharedService} from '../../services/shared.service';
+import notify from "devextreme/ui/notify";
 
 @Component({
   selector: 'app-user-list',
@@ -15,18 +16,25 @@ export class UserListComponent implements OnInit {
     this.sharedService.userUpdate.subscribe(_ => {
       this.us.getAllUsers().subscribe(res => {
         this.dataSource = res;
-      }, error => {});
+      }, error => {
+      });
     });
   }
 
   ngOnInit(): void {
     this.us.getAllUsers().subscribe(res => {
       this.dataSource = res;
-    }, error => {});
+    }, error => {
+    });
   }
 
   deleteUser(data: any): void {
     console.log(data);
+    this.us.deleteUser(data.data.id).subscribe(res => {
+      notify('Success delete user', 'success');
+    }, error => {
+      notify(error.message, 'danger');
+    });
   }
 
   checkUserData(data: any): boolean {

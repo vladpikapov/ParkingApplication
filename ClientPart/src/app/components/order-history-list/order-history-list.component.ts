@@ -6,6 +6,9 @@ import {Order} from "../../Models/Order";
 import {SharedService} from "../../services/shared.service";
 import {UserService} from "../../services/user.service";
 import {Wallet} from "../../Models/Wallet";
+import {AuthService} from "../../services/auth.service";
+import {Account} from "../../Models/Account";
+import notify from "devextreme/ui/notify";
 
 @Component({
   selector: 'app-order-history-list',
@@ -26,33 +29,38 @@ export class OrderHistoryListComponent implements OnInit {
   titleText = '';
   buttonText = '';
   disableStartDate = false;
-  dataSource: any[];
+  dataSource: Order[];
   visiblePopup = false;
   minDate = new Date();
-
+  userInfo: Account;
   formData = new Order();
 
-  constructor(private os: OrderService, private ps: ParkingService, private sharedService: SharedService, private us: UserService) {
-    sharedService.cartData.subscribe(n => {
-      if (n) {
-        this.os.getUserOrders(n).subscribe(res => {
+  constructor(private os: OrderService, private ps: ParkingService, private sharedService: SharedService, private us: UserService,
+              private as: AuthService) {
+
+  }
+
+  ngOnInit(): void {
+    this.sharedService.cartData.subscribe(n => {
+      if (this.as.currentUser.role === 'Admin') {
+        this.os.getAllOrders().subscribe(res => {
           this.dataSource = res;
         });
       } else {
         this.os.getOrders().subscribe(res => {
           this.dataSource = res;
+          this.userInfo = this.as.currentUser;
         });
       }
-    })
-  }
-
-  ngOnInit(): void {
-    if (this.userId === -1) {
-      this.os.getOrders().subscribe(res => {
+    });
+    if (this.as.currentUser != null && this.as.currentUser.role === 'Admin') {
+      this.os.getAllOrders().subscribe(res => {
         this.dataSource = res;
+        notify('Success load all orders', 'success');
+        this.userInfo = this.as.currentUser;
       });
     } else {
-      this.os.getUserOrders(this.userId).subscribe(res => {
+      this.os.getOrders().subscribe(res => {
         this.dataSource = res;
       });
     }
@@ -64,8 +72,8 @@ export class OrderHistoryListComponent implements OnInit {
   }
 
   editOrder(e): void {
-    this.titleText = 'Обновить бронь';
-    this.buttonText = 'Обновить';
+    this.titleText = 'Update order';
+    this.buttonText = 'Update';
     this.formData = e.data;
     this.selectedOrder.orderEndDate = e.data.orderEndDate;
     this.disableStartDate = !this.disableStartDate;
@@ -86,9 +94,9 @@ export class OrderHistoryListComponent implements OnInit {
       wallet = res;
     });
     if (new Date(this.endDate).getTime() > new Date(this.formData.orderEndDate).getTime()) {
-      alert('Incorrect date!');
+      notify('Incorrect date!', 'danger');
     } else if (wallet.moneySum < allCost) {
-      alert('Insufficient funds');
+      notify('Insufficient funds', 'danger');
     } else {
       this.updOrder(this.formData);
       this.sharedService.orderUpdate.emit();

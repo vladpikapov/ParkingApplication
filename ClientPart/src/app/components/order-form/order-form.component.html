@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-body">
         <dx-form [(formData)]="formData" (onFieldDataChanged)="checkDate($event)">
-          <dxi-item *ngIf="this.as.currentUser.role === 'Admin'" dataField="userId" editorType="dxSelectBox"
+          <dxi-item *ngIf="this.as.currentUser.role === 'Admin'" dataField="userId" [label]="{text: 'User'}" editorType="dxSelectBox"
                     [editorOptions]="{dataSource: this.dataSelectBox, displayExpr: 'login'}"></dxi-item>
           <dxi-item dataField="orderStartDate" editorType="dxDateBox"
                     [label]="{text:'Start date'}"
@@ -19,7 +19,7 @@
         <div class="row">
           <div class="col-12 justify-content-center">
         <dx-button (onClick)="addOrder()" class="btn btn-outline-dark mt-4 w-100">
-          Забронировать
+          Create order
         </dx-button>
           </div>
         </div>
@@ -28,7 +28,7 @@
   </div>
 </div>
 <dx-popup [(visible)]="visiblePopup" width="400" [height]="350"
-          title="Информация о брони">
+          title="Order information">
   Order info:
   <br>
   <br>

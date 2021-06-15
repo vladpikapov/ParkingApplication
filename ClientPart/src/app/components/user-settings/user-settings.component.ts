@@ -4,6 +4,7 @@ import {UserService} from '../../services/user.service';
 import {Account} from '../../Models/Account';
 import {DxFormComponent} from 'devextreme-angular';
 import {SharedService} from '../../services/shared.service';
+import notify from 'devextreme/ui/notify';
 
 @Component({
   selector: 'app-user-settings',
@@ -53,11 +54,12 @@ export class UserSettingsComponent implements OnInit {
       this.userInfo.login = this.loginForm.login;
       this.us.updateUserData(this.userInfo, 1).subscribe(res => {
         if (res) {
-          alert('Success !');
+          notify('Success update login!', 'success');
+          this.as.currentUser.login = this.loginForm.login;
           this.sharedService.userUpdate.emit();
           this.loginPopup = !this.loginPopup;
         } else {
-          alert('Bad');
+          notify('Login already used!', 'error');
         }
       });
     }
@@ -82,14 +84,14 @@ export class UserSettingsComponent implements OnInit {
   updatePassword(formComponent: DxFormComponent): void {
     if (formComponent.instance.validate().isValid) {
       this.userInfo.password = this.passwordForm.password;
-      this.us.updateUserData(this.userInfo, 2).toPromise().then(res => {
+      this.us.updateUserData(this.userInfo, 2).subscribe(res => {
           if (res) {
-            alert('Success');
+            notify('Success update password', 'success');
             this.sharedService.userUpdate.emit();
             formComponent.instance.resetValues();
             this.passwordPopup = !this.passwordPopup;
           }
-        }
+        }, error => notify(error, 'error')
       );
     }
     // this.us.updateUserData()
@@ -101,26 +103,31 @@ export class UserSettingsComponent implements OnInit {
 
   sendMailCode(form: DxFormComponent): void {
     if (form.instance.validate().isValid) {
-      this.us.sendCodeToMail(this.mailForm.mail).subscribe(_ => {
-        this.codeSend = true;
-        this.userInfo.email = this.mailForm.mail;
-        this.mailPopup = !this.mailPopup;
+      this.us.sendCodeToMail(this.mailForm.mail).subscribe(res => {
+        if (res) {
+          notify('Code send', 'default');
+          this.codeSend = true;
+          this.userInfo.email = this.mailForm.mail;
+          this.mailPopup = !this.mailPopup;
+        } else {
+          notify('Mail already used', 'error');
+        }
       });
     }
   }
 
   updateCarNumber(carNumberForm: DxFormComponent): void {
-      if (carNumberForm.instance.validate().isValid) {
-        this.userInfo.carNumber = this.carNumberForm.carNumber;
-        this.us.updateUserData(this.userInfo, 4).subscribe(res => {
-          if (res) {
-            alert('Success !');
-            this.sharedService.userUpdate.emit();
-            this.carNumberPopup = !this.carNumberPopup;
-          } else {
-            alert('Bad');
-          }
-        });
-      }
+    if (carNumberForm.instance.validate().isValid) {
+      this.userInfo.carNumber = this.carNumberForm.carNumber;
+      this.us.updateUserData(this.userInfo, 4).subscribe(res => {
+        if (res) {
+          notify('Success update car number', 'success');
+          this.sharedService.userUpdate.emit();
+          this.carNumberPopup = !this.carNumberPopup;
+        } else {
+          notify('Car number already used', 'error');
+        }
+      });
+    }
   }
 }

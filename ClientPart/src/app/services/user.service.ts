@@ -48,5 +48,9 @@ export class UserService {
   sendCodeToMail(mail: string): Observable<any> {
     return this.http.get(`${this.apiUrl}api/User/SendCodeToMail/${mail}`);
   }
+
+  deleteUser(userId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}api/AUser/DeleteUser/${userId}`);
+  }
 }
 

@@ -12,6 +12,10 @@ export class OrderService {
   constructor(private http: HttpClient, @Inject(AUTH_API_URL) private apiUrl: string) {
   }
 
+  getAllOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.apiUrl}api/AOrder/GetOrders/`);
+  }
+
   getOrders(): Observable<any> {
     return this.http.get<Order[]>(`${this.apiUrl}api/Order/GetOrders/`);
   }

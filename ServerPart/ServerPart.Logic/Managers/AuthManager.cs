@@ -22,7 +22,6 @@ namespace ServerPart.Logic.Managers
         private UserContext userContext;
         private WalletContext walletContext;
         private MailManager mailManager;
-        //private ILogger Logger;
 
 
 
@@ -32,7 +31,6 @@ namespace ServerPart.Logic.Managers
             this.userContext = userContext;
             this.walletContext = walletContext;
             this.mailManager = mailManager;
-            //Logger = logger;
         }
 
         public string GenerateJWT(Account user)
@@ -78,7 +76,7 @@ namespace ServerPart.Logic.Managers
                 userContext.Insert(new Account { Login = model.Login, Password = model.Password, WalletId = getLastWallet.Id, Email = model.Email, CarNumber = model.CarNumber });
                 mailManager.SendCodeToMail(model.Email);
             }
-            catch(Exception ex)
+            catch
             {
                 return false;
             }
